@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_add_note"
+            android:icon="@mipmap/ic_menu_note_add"
+            android:title="Add New" />
+        <item
+            android:id="@+id/nav_note_show"
+            android:icon="@mipmap/ic_menu_note_show"
+            android:title="Note Show " />
+        <item
+            android:id="@+id/nav_add_money"
+            android:icon="@mipmap/ic_menu_money_add"
+            android:title="Add Money" />
+
+        <item
+            android:id="@+id/nav_money_show"
+            android:icon="@mipmap/ic_menu_money_show"
+            android:title="Money Show" />
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Share" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Send" />
+            <item
+                android:id="@+id/nav_login"
+                android:icon="@mipmap/ic_menu_login"
+                android:title="Login" />
+        </menu>
+    </item>
+
+</menu>

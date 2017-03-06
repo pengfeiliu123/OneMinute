@@ -1,0 +1,68 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="70dp"
+    android:layout_marginStart="70dp"
+    tools:context="com.lpf.oneminute.modules.login.view.SubFragmentRegister">
+
+    <TextView
+        android:id="@+id/current_user_name"
+        style="@style/subFragmentLostText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:ems="10"
+        android:text="User：" />
+
+    <TextView
+        android:id="@+id/password_tip"
+        style="@style/subFragmentLostText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/current_user_name"
+        android:ems="10"
+        android:text="Tips:" />
+
+    <EditText
+        android:id="@+id/password_answer"
+        style="@style/subFragmentLostText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/password_tip"
+        android:ems="10"
+        android:hint="input the tips :"
+        android:inputType="textPersonName" />
+
+    <!--<EditText-->
+    <!--android:id="@+id/confirm_pw"-->
+    <!--android:layout_alignEnd="@+id/register_pw"-->
+    <!--android:layout_alignRight="@+id/register_pw"-->
+    <!--android:layout_below="@+id/register_pw"-->
+    <!--android:layout_marginTop="36dp"-->
+    <!--android:ems="10"-->
+    <!--android:hint="Confirm:"-->
+    <!--android:inputType="textPassword" />-->
+
+    <!--<EditText-->
+    <!--android:id="@+id/register_pw"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignLeft="@+id/register_name"-->
+    <!--android:layout_alignStart="@+id/register_name"-->
+    <!--android:layout_below="@+id/register_name"-->
+    <!--android:layout_marginTop="43dp"-->
+    <!--android:ems="10"-->
+    <!--android:hint="Password:"-->
+    <!--android:inputType="textPassword" />-->
+
+    <Button
+        android:id="@+id/btn_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/password_answer"
+        android:layout_marginEnd="61dp"
+        android:layout_marginRight="61dp"
+        android:layout_marginTop="51dp"
+        android:text="Register" />
+</RelativeLayout>

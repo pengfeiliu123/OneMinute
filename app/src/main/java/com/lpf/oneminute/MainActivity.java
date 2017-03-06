@@ -1,0 +1,177 @@
+package com.lpf.oneminute;
+
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ProgressBar;
+
+import com.lpf.oneminute.listeners.OnProgressShowListener;
+import com.lpf.oneminute.modules.home.FragmentHome;
+import com.lpf.oneminute.modules.home.HomePresenter;
+import com.lpf.oneminute.modules.login.view.FragmentLoginOrRegister;
+import com.lpf.oneminute.modules.recordmoney.FragmentRecordMoney;
+import com.lpf.oneminute.modules.recordmoney.FragmentRecordMoneyShow;
+import com.lpf.oneminute.modules.recordnote.FragmentRecordNote;
+import com.lpf.oneminute.modules.recordnote.FragmentRecordNoteShow;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+import static android.R.id.toggle;
+
+public class MainActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener, OnProgressShowListener {
+//    @BindView(R.id.toolbar)
+//    Toolbar toolbar;
+    @BindView(R.id.main_container)
+    FrameLayout mainContainer;
+    @BindView(R.id.progress)
+    ProgressBar progress;
+    @BindView(R.id.content_main)
+    FrameLayout contentMain;
+    @BindView(R.id.nav_view)
+    NavigationView navView;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawerLayout;
+
+    FragmentHome homeFragment = new FragmentHome();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.a_main);
+        ButterKnife.bind(this);
+
+        initViews();
+
+        checkPermission();
+
+    }
+
+    // check permission
+    private void checkPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            }
+        }
+    }
+
+    private void initViews() {
+
+//        toolbar.setTitle("One Minute");
+//        toolbar.setSubtitle("record your life");
+//        toolbar.setLogo(R.mipmap.ic_launcher);
+//        setSupportActionBar(toolbar);
+
+
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+//                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        drawerLayout.addDrawerListener(toggle);
+//        toggle.syncState();
+
+        navView.setNavigationItemSelectedListener(this);
+
+        new HomePresenter(MainActivity.this, homeFragment);
+
+//        navView.getMenu().findItem(R.id.nav_login).setChecked(true);
+        switchToFragment(FragmentLoginOrRegister.getInstance());    // set current Fragment
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.nav_login) {
+            switchToFragment(FragmentLoginOrRegister.getInstance());
+        } else if (id == R.id.nav_add_note) {
+            switchToFragment(FragmentRecordNote.getInstance());
+        } else if (id == R.id.nav_note_show) {
+            switchToFragment(FragmentRecordNoteShow.getInstance());
+        } else if (id == R.id.nav_add_money) {
+            switchToFragment(FragmentRecordMoney.getInstance());
+        } else if (id == R.id.nav_money_show) {
+            switchToFragment(FragmentRecordMoneyShow.getInstance());
+
+        } else if (id == R.id.nav_send) {
+
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    public void switchToFragment(Fragment fragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.main_container, fragment);
+        transaction.commitAllowingStateLoss();
+    }
+
+    @Override
+    public void showProgress() {
+        progress.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        progress.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showDrawer() {
+        drawerLayout.openDrawer(GravityCompat.START);
+    }
+
+    @Override
+    public void hideDrawer() {
+        drawerLayout.closeDrawer(GravityCompat.END);
+    }
+}
