@@ -19,6 +19,8 @@ import com.lpf.common.util.ToastUtil;
 import com.lpf.oneminute.App;
 import com.lpf.oneminute.MainActivity;
 import com.lpf.oneminute.R;
+import com.lpf.oneminute.greendao.db.DbUtil;
+import com.lpf.oneminute.greendao.db.LocalUserHelper;
 import com.lpf.oneminute.greendao.gen.LocalUserDao;
 import com.lpf.oneminute.greendao.localBean.LocalUser;
 import com.lpf.oneminute.listeners.OnProgressShowListener;
@@ -135,7 +137,8 @@ public class SubFragmentLogin extends Fragment {
         localUser.setName(userName);
         localUser.setPassWord(passWord);
 
-        LocalUserDao localUserDao = App.getInstance().getDaoSession().getLocalUserDao();
+//        LocalUserDao localUserDao = App.newInstance().getDaoSession().getLocalUserDao();
+        LocalUserHelper localUserDao = DbUtil.getlocalUserHelper();
 
         boolean isUserExist = false;
         Query<LocalUser> query =
@@ -144,10 +147,21 @@ public class SubFragmentLogin extends Fragment {
                         LocalUserDao.Properties.PassWord.eq(passWord)).build();
         List<LocalUser> localUsers = query.list();
 
+         Query<LocalUser> queryName =
+                localUserDao.queryBuilder().where(
+                        LocalUserDao.Properties.Name.eq(userName)).build();
+        List<LocalUser> localUserName = queryName.list();
+
+
+
         if (localUsers.size() > 0) {
             isUserExist = true;
         }else if(localUsers.size() == 0){
-            ToastUtil.shortShow(mContext,"the userName is invalid");
+            if(localUserName.size() > 0){
+                ToastUtil.shortShow(mContext,"the password is wrong!");
+            }else{
+                ToastUtil.shortShow(mContext,"the userName is invalid!");
+            }
         }
         if (null != listener) {
             listener.hideProgress();

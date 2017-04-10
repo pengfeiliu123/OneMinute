@@ -43,25 +43,25 @@
                 android:id="@+id/item_note_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/item_rv_time_size"
-                android:gravity="left" />
+                android:gravity="center"
+                android:textSize="@dimen/item_rv_time_size" />
 
             <TextView
                 android:id="@+id/item_note_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/item_note_time"
-                android:gravity="left"
-                android:textStyle="bold|italic"
-                android:textSize="@dimen/item_rv_title_size"/>
+                android:gravity="center"
+                android:textSize="@dimen/item_rv_title_size"
+                android:textStyle="bold|italic" />
 
             <TextView
                 android:id="@+id/item_note_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/item_note_title"
-                android:gravity="left"
-                android:textSize="@dimen/item_rv_content_size"/>
+                android:gravity="center"
+                android:textSize="@dimen/item_rv_content_size" />
         </LinearLayout>
 
 

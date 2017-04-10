@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.lpf.common.util.Base64Util;
 import com.lpf.common.util.ToastUtil;
 import com.lpf.oneminute.R;
-import com.lpf.oneminute.greendao.bean.Money;
+//import com.lpf.oneminute.greendao.bean.Money;
 import com.lpf.oneminute.greendao.localBean.LocalMoney;
 import com.lpf.oneminute.greendao.localBean.LocalMoneyDetail;
 import com.lpf.oneminute.util.MoneyUtil;
@@ -75,12 +75,14 @@ public class MoneyAdapter extends RecyclerView.Adapter<MoneyAdapter.MoneyViewHol
 
             String left = mContext.getString(R.string.item_money_cost_left);
             String right = mContext.getString(R.string.item_money_cost_right);
-            sb.append(i+1).append(".")
+            sb.append("* ")
                     .append(left)
                     .append(money.getMoneyUnit())
+                    .append(":")
                     .append(itemCost)
                     .append(right)
-                    .append(" "+itemContent)
+                    .append("<br>")
+                    .append("\t"+itemContent)
                     .append("<br>");
 
             content += sb.toString();

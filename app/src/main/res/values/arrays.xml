@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="moneyUnit">
+        <item>RMB</item>        //人民币
+        <item>USD</item>        //美元
+        <item>JPY</item>        //日元
+        <item>EUR</item>        //欧元
+        <item>GBP</item>        //英镑
+        <item>DEM</item>        //德国马克
+        <item>CHF</item>        //瑞士法郎
+        <item>FRF</item>        //法国法郎
+
+        <item>CAD</item>        //加拿大
+        <item>AUD</item>        //澳大利亚
+        <item>HKD</item>        //港币
+        <item>ATS</item>        //奥地利先令
+        <item>FIM</item>        //芬兰马克
+        <item>BEF</item>        //比利时法郎
+        <item>IEP</item>        //爱尔兰镑
+        <item>ITL</item>        //意大利里拉
+        <item>LUF</item>        //卢森堡法郎
+        <item>NLG</item>        //荷兰盾
+        <item>PTE</item>        //葡萄牙埃斯库多
+        <item>ESP</item>        //西班牙比塞塔
+        <item>IDR</item>        //印尼盾
+
+        <item>ESP</item>        //西班牙比塞塔
+        <item>MYR</item>        //马来西亚林吉特
+        <item>NZD</item>        //新西兰元
+        <item>PHP</item>        //菲律宾比索
+        <item>SUR</item>        //俄罗斯卢布
+
+        <item>SGD</item>        //新加坡元
+        <item>KRW</item>        //韩国元
+        <item>THB</item>        //泰铢
+
+    </string-array>
+
+    <string-array name="moneyUnitSymbol">
+        <item>RMB</item>        //人民币
+        <item>USD</item>        //美元
+        <item>JPY</item>        //日元
+        <item>EUR</item>        //欧元
+        <item>GBP</item>        //英镑
+        <item>DEM</item>        //德国马克
+        <item>CHF</item>        //瑞士法郎
+        <item>FRF</item>        //法国法郎
+
+        <item>CAD</item>        //加拿大
+        <item>AUD</item>        //澳大利亚
+        <item>HKD</item>        //港币
+        <item>ATS</item>        //奥地利先令
+        <item>FIM</item>        //芬兰马克
+        <item>BEF</item>        //比利时法郎
+        <item>IEP</item>        //爱尔兰镑
+        <item>ITL</item>        //意大利里拉
+        <item>LUF</item>        //卢森堡法郎
+        <item>NLG</item>        //荷兰盾
+        <item>PTE</item>        //葡萄牙埃斯库多
+        <item>ESP</item>        //西班牙比塞塔
+        <item>IDR</item>        //印尼盾
+
+        <item>ESP</item>        //西班牙比塞塔
+        <item>MYR</item>        //马来西亚林吉特
+        <item>NZD</item>        //新西兰元
+        <item>PHP</item>        //菲律宾比索
+        <item>SUR</item>        //俄罗斯卢布
+
+        <item>SGD</item>        //新加坡元
+        <item>KRW</item>        //韩国元
+        <item>THB</item>        //泰铢
+
+    </string-array>
+
+    <string-array name="home_setting_tablayout">
+        <item>找回密码</item>
+        <item>密保问题</item>
+    </string-array>
+
+
+</resources>

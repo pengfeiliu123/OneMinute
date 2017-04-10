@@ -16,8 +16,11 @@ import com.lpf.common.util.ToastUtil;
 import com.lpf.oneminute.App;
 import com.lpf.oneminute.MainActivity;
 import com.lpf.oneminute.R;
+import com.lpf.oneminute.greendao.db.DbUtil;
+import com.lpf.oneminute.greendao.db.LocalUserHelper;
 import com.lpf.oneminute.greendao.gen.LocalUserDao;
 import com.lpf.oneminute.greendao.localBean.LocalUser;
+import com.lpf.oneminute.util.NavigatorUtil;
 
 import org.greenrobot.greendao.query.Query;
 
@@ -108,7 +111,7 @@ public class SubFragmentRegister extends Fragment {
 //                    if(null == e){
 //                        ToastUtil.shortShow(mContext,"register success");
 //                        //todo jump to login
-//                        ((MainActivity)getActivity()).switchToFragment(FragmentLoginOrRegister.getInstance());
+//                        ((MainActivity)getActivity()).switchToFragment(FragmentLoginOrRegister.newInstance());
 //
 //                    }else{
 //                        int errorCode = e.getErrorCode();
@@ -137,9 +140,13 @@ public class SubFragmentRegister extends Fragment {
             localUser.setUserId(System.currentTimeMillis());
             localUser.setName(userName);
             localUser.setPassWord(passWord);
-            LocalUserDao mUserDao = App.getInstance().getDaoSession().getLocalUserDao();
-            long resultId = mUserDao.insertOrReplace(localUser);
-            ToastUtil.shortShow(mContext, resultId + "");
+//            LocalUserDao mUserDao = App.newInstance().getDaoSession().getLocalUserDao();
+            LocalUserHelper mUserDao = DbUtil.getlocalUserHelper();
+            long resultId = mUserDao.insert(localUser);
+            if(resultId > 0){
+                ToastUtil.shortShow(mContext, "register success!");
+                NavigatorUtil.switchToFragment(mContext,FragmentLoginOrRegister.newInstance());
+            }
         }
 
 
@@ -147,18 +154,19 @@ public class SubFragmentRegister extends Fragment {
 
     private void insertUser(String userName, String passWord, String address) {
 //        LocalUser localUser = new LocalUser(userName,passWord,"");
-//        LocalUserDao mUserDao = App.getInstance().getDaoSession().getLocalUserDao();
+//        LocalUserDao mUserDao = App.newInstance().getDaoSession().getLocalUserDao();
 //        mUserDao.insert(localUser);
 //        if(returnCode !=0){
 //            ToastUtil.shortShow(mContext,"register Success");
 //            //jump to login
-//            ((MainActivity)getActivity()).switchToFragment(FragmentLoginOrRegister.getInstance());
+//            ((MainActivity)getActivity()).switchToFragment(FragmentLoginOrRegister.newInstance());
 //        }
     }
 
     public boolean isNameExists(String userName) {
         boolean isUserExist = false;
-        LocalUserDao localUserDao = App.getInstance().getDaoSession().getLocalUserDao();
+//        LocalUserDao localUserDao = App.newInstance().getDaoSession().getLocalUserDao();
+        LocalUserHelper localUserDao = DbUtil.getlocalUserHelper();
         Query<LocalUser> query =
                 localUserDao.queryBuilder().where(
                         LocalUserDao.Properties.Name.eq(userName)).build();

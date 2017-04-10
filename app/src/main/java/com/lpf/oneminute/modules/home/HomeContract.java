@@ -15,7 +15,11 @@ public class HomeContract {
 
         void showLoading();
 
+        void showUserName();
+
         void showResult(List<HomeBean> homeBeanList);
+
+        void showSetting();
 
     }
 
@@ -24,5 +28,9 @@ public class HomeContract {
         void loadResults();
 
         void jumpToDetail(int position);
+
+        void loadUserName();
+
+        void showSetting();
     }
 }

@@ -1,40 +1,27 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.lpf.oneminute.modules.login.view.SubFragmentLogin">
 
     <!-- TODO: Update blank fragment layout -->
 
     <EditText
         android:id="@+id/login_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="99dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="Name:" />
+        style="@style/sub_login_register_et"
+        android:hint="Name:"
+        android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/login_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/login_name"
-        android:layout_alignRight="@+id/login_name"
-        android:layout_below="@+id/login_name"
-        android:layout_marginTop="72dp"
+        style="@style/sub_login_register_et"
         android:ems="10"
-        android:inputType="textPassword"
-        android:hint="Password:" />
+        android:hint="Password:"
+        android:inputType="textPassword" />
 
     <Button
         android:id="@+id/btn_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/login_password"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="74dp"
+        style="@style/sub_login_register_et"
         android:text="Login" />
-</RelativeLayout>
+</LinearLayout>

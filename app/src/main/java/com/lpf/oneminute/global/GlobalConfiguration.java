@@ -7,4 +7,7 @@ package com.lpf.oneminute.global;
 public class GlobalConfiguration {
 
     public static final String BMOBID = "4da895b77e7d75f818c2a2c0d12ca338";
+
+    public static final String MONEYUNIT = "RMB";
+    public static final String MONEYUNITPOSITION = "UnitPosition";
 }

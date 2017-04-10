@@ -1,6 +1,8 @@
 package com.lpf.oneminute.util;
 
 import com.lpf.oneminute.App;
+import com.lpf.oneminute.greendao.db.DbUtil;
+import com.lpf.oneminute.greendao.db.LocalMoneyDetailHelper;
 import com.lpf.oneminute.greendao.gen.LocalMoneyDetailDao;
 import com.lpf.oneminute.greendao.gen.LocalUserDao;
 import com.lpf.oneminute.greendao.localBean.LocalMoneyDetail;
@@ -19,7 +21,8 @@ public class MoneyUtil {
     public static List<LocalMoneyDetail> getLocalMoneyDetails(long moneyId) {
         List<LocalMoneyDetail> localMoneyDetails = new ArrayList<>();
 
-        LocalMoneyDetailDao moneyDetailDao = App.getInstance().getDaoSession().getLocalMoneyDetailDao();
+//        LocalMoneyDetailDao moneyDetailDao = App.getInstance().getDaoSession().getLocalMoneyDetailDao();
+        LocalMoneyDetailHelper moneyDetailDao = DbUtil.getlocalMoneyDetailHelper();
         Query<LocalMoneyDetail> query = moneyDetailDao.queryBuilder().where(LocalMoneyDetailDao.Properties.LocalMoneyId.eq(moneyId)).build();
         localMoneyDetails = query.list();
 

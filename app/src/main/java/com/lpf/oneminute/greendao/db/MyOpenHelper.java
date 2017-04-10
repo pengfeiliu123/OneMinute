@@ -4,9 +4,12 @@ import android.content.Context;
 
 import com.lpf.oneminute.greendao.gen.DaoMaster;
 import com.lpf.oneminute.greendao.gen.LocalMoneyDao;
+import com.lpf.oneminute.greendao.gen.LocalProtectionDao;
 import com.lpf.oneminute.greendao.gen.LocalUserDao;
 
 import org.greenrobot.greendao.database.Database;
+
+import static com.lpf.oneminute.greendao.gen.DaoMaster.dropAllTables;
 
 /**
  * Created by liupengfei on 17/3/6 16:54.
@@ -21,15 +24,11 @@ public class MyOpenHelper extends DaoMaster.OpenHelper {
     public void onUpgrade(Database db, int oldVersion, int newVersion) {
 
         switch (oldVersion){
-            case 1:
+            case 2:
+                LocalProtectionDao.createTable(db,true);
+
                 break;
-
-            case 4:
-//                LocalMoneyDao.createTable(db,true);
-                LocalUserDao.createTable(db,true);
-
-                //add new column
-                db.execSQL("alert table 'local_user' add 'gender' text");
+            case 3:
                 break;
 
         }

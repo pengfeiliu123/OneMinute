@@ -1,0 +1,58 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context="com.lpf.oneminute.modules.home.SubFragmentChangePw">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:gravity="center"
+        android:text="@string/change_your_password"
+        android:textSize="25dp" />
+
+
+    <EditText
+        android:id="@+id/et_old_pw"
+        style="@style/et_change_pw"
+        android:hint="Old password:" />
+
+    <TextView
+        android:id="@+id/tv_old_pw"
+        style="@style/tv_change_pw"
+        android:text="input the right old password" />
+
+
+    <EditText
+        android:id="@+id/et_new_pw"
+        style="@style/et_change_pw"
+        android:hint="New password:" />
+
+    <TextView
+        android:id="@+id/tv_new_pw"
+        style="@style/tv_change_pw"
+        android:text="input the new password" />
+
+    <EditText
+        android:id="@+id/et_new_confirm_pw"
+        style="@style/et_change_pw"
+        android:hint="Confirm password:" />
+
+    <TextView
+        android:id="@+id/tv_new_confirm_pw"
+        style="@style/tv_change_pw"
+        android:text="input the confrim new password" />
+
+    <ImageView
+        android:id="@+id/btn_change_ok"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:src="@mipmap/btn_ok" />
+
+
+</LinearLayout>

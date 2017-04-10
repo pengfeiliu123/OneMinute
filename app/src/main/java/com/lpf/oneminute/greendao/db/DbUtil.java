@@ -2,6 +2,7 @@ package com.lpf.oneminute.greendao.db;
 
 import com.lpf.oneminute.greendao.localBean.LocalMoney;
 import com.lpf.oneminute.greendao.localBean.LocalMoneyDetail;
+import com.lpf.oneminute.greendao.localBean.LocalProtection;
 
 /**
  * Created by liupengfei on 17/3/6 17:09.
@@ -17,6 +18,8 @@ public class DbUtil {
     private static LocalMoneyDetailHelper mLocalMoneyDetailHelper;
 
     private static LocalUserHelper mLocalUserHelper;
+
+    private static LocalProtectionHelper mLocalProtectionHelper;
 
     public static LocalUserHelper getlocalUserHelper() {
         if (mLocalUserHelper == null) {
@@ -44,6 +47,13 @@ public class DbUtil {
             mLocalMoneyDetailHelper = new LocalMoneyDetailHelper(DbCore.getDaoSession().getLocalMoneyDetailDao());
         }
         return mLocalMoneyDetailHelper;
+    }
+
+    public static LocalProtectionHelper getlocalProtectionHelper() {
+        if (mLocalProtectionHelper == null) {
+            mLocalProtectionHelper = new LocalProtectionHelper(DbCore.getDaoSession().getLocalProtectionDao());
+        }
+        return mLocalProtectionHelper;
     }
 
 }

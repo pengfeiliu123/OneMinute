@@ -94,7 +94,7 @@ public class SubFragmentLost extends Fragment {
 //                if (null == e) {
 //                    ToastUtil.shortShow(mContext, "login Success");
 //                    //todo jump to mainpage
-////                    ((MainActivity)getActivity()).switchToFragment(FragmentRecordNote.getInstance());
+////                    ((MainActivity)getActivity()).switchToFragment(FragmentRecordNote.newInstance());
 //                } else {
 //                    int resultCode = e.getErrorCode();
 //                    ToastUtil.dshortShow(mContext,resultCode+"");

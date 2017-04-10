@@ -14,12 +14,18 @@ import com.lpf.common.util.ToastUtil;
 import com.lpf.oneminute.App;
 import com.lpf.oneminute.MainActivity;
 import com.lpf.oneminute.R;
-import com.lpf.oneminute.greendao.bean.Note;
+//import com.lpf.oneminute.greendao.bean.Note;
+import com.lpf.oneminute.greendao.db.DbUtil;
+import com.lpf.oneminute.greendao.db.LocalNoteHelper;
+import com.lpf.oneminute.greendao.gen.LocalMoneyDao;
 import com.lpf.oneminute.greendao.gen.LocalNoteDao;
 import com.lpf.oneminute.greendao.gen.LocalUserDao;
+import com.lpf.oneminute.greendao.localBean.LocalMoney;
 import com.lpf.oneminute.greendao.localBean.LocalNote;
 import com.lpf.oneminute.greendao.localBean.LocalUser;
 import com.lpf.oneminute.modules.login.view.FragmentLoginOrRegister;
+import com.lpf.oneminute.util.AccountUtil;
+import com.lpf.oneminute.util.NavigatorUtil;
 
 import org.greenrobot.greendao.query.Query;
 
@@ -74,13 +80,25 @@ public class FragmentRecordNoteShow extends Fragment {
 
 //        requestFromServer();
 
+        if(!AccountUtil.isLogin(mContext)){
+            NavigatorUtil.switchToFragment(mContext,FragmentLoginOrRegister.newInstance());
+        }
         requestFromLocal();
     }
 
     // request from local
     private void requestFromLocal() {
-        LocalNoteDao noteDao = App.getInstance().getDaoSession().getLocalNoteDao();
-        List<LocalNote> localNoteList = noteDao.loadAll();
+//        LocalNoteDao noteDao = App.newInstance().getDaoSession().getLocalNoteDao();
+        LocalNoteHelper noteDao = DbUtil.getlocalNoteHelper();
+        List<LocalNote> localNoteList;
+
+        String loginId = AccountUtil.getLoginId(mContext);                                  // get all money record desc by time
+        Query<LocalNote> localNoteQuery =
+                noteDao.queryBuilder()
+                        .where(LocalNoteDao.Properties.UserId.eq(loginId))
+                        .orderDesc(LocalNoteDao.Properties.Time)
+                        .build();
+        localNoteList = localNoteQuery.list();
 
         if (datas != null) {
             datas.clear();
@@ -93,7 +111,7 @@ public class FragmentRecordNoteShow extends Fragment {
 //    private void requestFromServer() {
 //        BmobUser user = BmobUser.getCurrentUser();
 //        if (user == null) {
-//            ((MainActivity) getActivity()).switchToFragment(FragmentLoginOrRegister.getInstance());
+//            ((MainActivity) getActivity()).switchToFragment(FragmentLoginOrRegister.newInstance());
 //        } else {
 //            BmobQuery<Note> bmobQuery = new BmobQuery<Note>();
 //            bmobQuery.addWhereEqualTo("userId", BmobUser.getCurrentUser().getObjectId());

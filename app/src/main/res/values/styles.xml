@@ -26,4 +26,38 @@
         <item name="android:layout_marginTop">35dp</item>
     </style>
 
+    <style name="et_change_pw">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">20dp</item>
+        <item name="android:inputType">textPassword</item>
+        <item name="android:textSize">20dp</item>
+    </style>
+
+    <style name="tv_change_pw">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">-15dp</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:textSize">10dp</item>
+        <item name="android:visibility">gone</item>
+        <item name="android:textColor">@color/red</item>
+    </style>
+
+    <style name="sub_login_register_et">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">70dp</item>
+        <item name="android:layout_marginLeft">70dp</item>
+        <item name="android:layout_marginRight">70dp</item>
+        <item name="android:layout_marginStart">70dp</item>
+        <item name="android:layout_marginTop">70dp</item>
+    </style>
+
+    <!-- spinner -->
+    <!--<style name="spinner_style">-->
+        <!--<item name="android:background">@drawable/spinner_selector</item>-->
+        <!--<item name="android:paddingLeft">5dip</item>-->
+    <!--</style>-->
+
 </resources>

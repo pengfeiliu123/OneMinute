@@ -17,12 +17,10 @@ import com.lpf.common.util.Base64Util;
 import com.lpf.common.util.PreferenceUtil;
 import com.lpf.common.util.TimeUtil;
 import com.lpf.common.util.ToastUtil;
-import com.lpf.oneminute.App;
 import com.lpf.oneminute.MainActivity;
 import com.lpf.oneminute.R;
-import com.lpf.oneminute.greendao.bean.Note;
-import com.lpf.oneminute.greendao.gen.DaoMaster;
-import com.lpf.oneminute.greendao.gen.LocalNoteDao;
+import com.lpf.oneminute.greendao.db.DbUtil;
+import com.lpf.oneminute.greendao.db.LocalNoteHelper;
 import com.lpf.oneminute.greendao.localBean.LocalNote;
 import com.lpf.oneminute.modules.login.view.FragmentLoginOrRegister;
 import com.lpf.oneminute.util.AccountUtil;
@@ -32,11 +30,6 @@ import java.util.Date;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.SaveListener;
-
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 
 public class FragmentRecordNote extends Fragment {
 
@@ -74,12 +67,12 @@ public class FragmentRecordNote extends Fragment {
 
 //        BmobUser bmobUser = BmobUser.getCurrentUser();
 //        if (null == bmobUser) {
-//            ((MainActivity)getActivity()).switchToFragment(FragmentLoginOrRegister.getInstance());
+//            ((MainActivity)getActivity()).switchToFragment(FragmentLoginOrRegister.newInstance());
 //        }
 
         // if log out
         if(!AccountUtil.isLogin(mContext)){
-            ((MainActivity) getActivity()).switchToFragment(FragmentLoginOrRegister.getInstance());
+            ((MainActivity) getActivity()).switchToFragment(FragmentLoginOrRegister.newInstance());
         }
     }
 
@@ -122,7 +115,8 @@ public class FragmentRecordNote extends Fragment {
                 note.setContent(content);
                 note.setTime(TimeUtil.formatDate(new Date()));
 
-                LocalNoteDao noteDao = App.getInstance().getDaoSession().getLocalNoteDao();
+//                LocalNoteDao noteDao = App.newInstance().getDaoSession().getLocalNoteDao();
+                LocalNoteHelper noteDao = DbUtil.getlocalNoteHelper();
                 long resultCode = noteDao.insert(note);
                 if (resultCode > 0) {
                     ToastUtil.shortShow(mContext,"add note success");

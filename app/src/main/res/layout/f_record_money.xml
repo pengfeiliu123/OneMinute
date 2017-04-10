@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -22,7 +21,8 @@
         android:scrollbarSize="2dp"
         android:scrollbarStyle="outsideInset"
         android:scrollbarThumbVertical="@color/color1"
-        android:scrollbars="none">
+        android:scrollbars="none"
+        android:visibility="visible">
 
 
         <LinearLayout
@@ -54,24 +54,59 @@
 
     </ScrollView>
 
-
-    <TextView
-        android:id="@+id/item_money_count"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/setting_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_margin="10dp"
-        android:layout_toLeftOf="@+id/btnOk"
-        android:layout_alignBaseline="@+id/btnOk"
-        android:text="@string/costAll" />
+        android:gravity="center"
+        android:visibility="gone"
+        android:orientation="horizontal">
 
-    <ImageView
-        android:id="@+id/btnOk"
-        android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="money Unit:" />
+
+        <Spinner
+            android:id="@+id/money_unit_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:paddingLeft="5dp"></Spinner>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_margin="10dp"
-        android:src="@mipmap/btn_ok" />
-</RelativeLayout>
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/btn_money_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/btn_setting" />
+
+
+        <TextView
+            android:id="@+id/item_money_count"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:textSize="14dp"
+            android:textColor="@android:color/holo_red_dark"
+            android:text="@string/costAll" />
+
+        <ImageView
+            android:id="@+id/btnOk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:src="@mipmap/btn_ok" />
+
+    </LinearLayout>
+
+</LinearLayout>

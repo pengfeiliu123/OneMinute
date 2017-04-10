@@ -22,19 +22,22 @@ public class LocalUser {
 
     private String address;
 
+    private String gender;
+
 
     @Generated(hash = 173344742)
     public LocalUser() {
     }
 
 
-    @Generated(hash = 789410569)
+    @Generated(hash = 318755457)
     public LocalUser(long userId, String name, @NotNull String passWord,
-            String address) {
+            String address, String gender) {
         this.userId = userId;
         this.name = name;
         this.passWord = passWord;
         this.address = address;
+        this.gender = gender;
     }
 
 
@@ -68,6 +71,16 @@ public class LocalUser {
 
     public void setPassWord(String passWord) {
         this.passWord = passWord;
+    }
+
+
+    public String getGender() {
+        return this.gender;
+    }
+
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
 

@@ -19,28 +19,28 @@ public class BaseDbHelper<T, K> {
         this.mDao = mDao;
     }
 
-    //***************** save *******************
-    public void save(T item) {
-        mDao.insert(item);
+    //***************** insert *******************
+    public long insert(T item) {
+        return mDao.insert(item);
     }
 
-    public void save(T... items) {
+    public void insert(T... items) {
         mDao.insertInTx(items);
     }
 
-    public void save(List<T> items) {
+    public void insert(List<T> items) {
         mDao.insertInTx(items);
     }
 
-    public void saveOrUpdate(T item) {
-        mDao.insertOrReplace(item);
+    public long insertOrUpdate(T item) {
+        return mDao.insertOrReplace(item);
     }
 
-    public void saveOrUpdate(T... items) {
+    public void insertOrUpdate(T... items) {
         mDao.insertOrReplaceInTx(items);
     }
 
-    public void saveOrUpdate(List<T> items) {
+    public void insertOrUpdate(List<T> items) {
         mDao.insertOrReplaceInTx(items);
     }
 
@@ -83,15 +83,15 @@ public class BaseDbHelper<T, K> {
 
     //***************** query *******************
 
-    public T query(K key) {
+    public T load(K key) {
         return mDao.load(key);
     }
 
-    public List<T> queryAll() {
+    public List<T> loadAll() {
         return mDao.loadAll();
     }
 
-    public List<T> query(String where, String... params) {
+    public List<T> queryRaw(String where, String... params) {
 
         return mDao.queryRaw(where, params);
     }

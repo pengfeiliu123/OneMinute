@@ -6,7 +6,10 @@ import android.content.Intent;
 import com.lpf.oneminute.MainActivity;
 import com.lpf.oneminute.R;
 import com.lpf.oneminute.modules.login.view.FragmentLoginOrRegister;
+import com.lpf.oneminute.modules.recordmoney.FragmentRecordMoney;
+import com.lpf.oneminute.modules.recordmoney.FragmentRecordMoneyShow;
 import com.lpf.oneminute.modules.recordnote.FragmentRecordNote;
+import com.lpf.oneminute.modules.recordnote.FragmentRecordNoteShow;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,21 +48,31 @@ public class HomePresenter implements HomeContract.Presenter {
     }
 
     @Override
+    public void loadUserName() {
+        view.showUserName();
+    }
+
+    @Override
     public void jumpToDetail(int position) {
         switch (position){
             case 0:
                 ((MainActivity) mContext).switchToFragment(FragmentRecordNote.getInstance());
                 break;
             case 1:
-                ((MainActivity) mContext).switchToFragment(FragmentRecordNote.getInstance());
+                ((MainActivity) mContext).switchToFragment(FragmentRecordMoney.getInstance());
                 break;
             case 2:
-                ((MainActivity) mContext).switchToFragment(FragmentRecordNote.getInstance());
+                ((MainActivity) mContext).switchToFragment(FragmentRecordNoteShow.getInstance());
                 break;
             case 3:
-                ((MainActivity) mContext).switchToFragment(FragmentRecordNote.getInstance());
+                ((MainActivity) mContext).switchToFragment(FragmentRecordMoneyShow.getInstance());
                 break;
         }
+    }
+
+    @Override
+    public void showSetting() {
+        view.showSetting();
     }
 
     @Override

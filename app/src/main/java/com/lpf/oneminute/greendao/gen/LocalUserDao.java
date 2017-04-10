@@ -28,6 +28,7 @@ public class LocalUserDao extends AbstractDao<LocalUser, Long> {
         public final static Property Name = new Property(1, String.class, "name", false, "NAME");
         public final static Property PassWord = new Property(2, String.class, "passWord", false, "PASS_WORD");
         public final static Property Address = new Property(3, String.class, "address", false, "ADDRESS");
+        public final static Property Gender = new Property(4, String.class, "gender", false, "GENDER");
     }
 
 
@@ -46,7 +47,8 @@ public class LocalUserDao extends AbstractDao<LocalUser, Long> {
                 "\"_id\" INTEGER PRIMARY KEY NOT NULL ," + // 0: userId
                 "\"NAME\" TEXT UNIQUE ," + // 1: name
                 "\"PASS_WORD\" TEXT NOT NULL ," + // 2: passWord
-                "\"ADDRESS\" TEXT);"); // 3: address
+                "\"ADDRESS\" TEXT," + // 3: address
+                "\"GENDER\" TEXT);"); // 4: gender
     }
 
     /** Drops the underlying database table. */
@@ -70,6 +72,11 @@ public class LocalUserDao extends AbstractDao<LocalUser, Long> {
         if (address != null) {
             stmt.bindString(4, address);
         }
+ 
+        String gender = entity.getGender();
+        if (gender != null) {
+            stmt.bindString(5, gender);
+        }
     }
 
     @Override
@@ -87,6 +94,11 @@ public class LocalUserDao extends AbstractDao<LocalUser, Long> {
         if (address != null) {
             stmt.bindString(4, address);
         }
+ 
+        String gender = entity.getGender();
+        if (gender != null) {
+            stmt.bindString(5, gender);
+        }
     }
 
     @Override
@@ -100,7 +112,8 @@ public class LocalUserDao extends AbstractDao<LocalUser, Long> {
             cursor.getLong(offset + 0), // userId
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // name
             cursor.getString(offset + 2), // passWord
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3) // address
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // address
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4) // gender
         );
         return entity;
     }
@@ -111,6 +124,7 @@ public class LocalUserDao extends AbstractDao<LocalUser, Long> {
         entity.setName(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setPassWord(cursor.getString(offset + 2));
         entity.setAddress(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setGender(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
      }
     
     @Override

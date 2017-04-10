@@ -17,6 +17,8 @@ import android.widget.TextView;
 import com.lpf.oneminute.MainActivity;
 import com.lpf.oneminute.R;
 import com.lpf.oneminute.greendao.localBean.LocalUser;
+import com.lpf.oneminute.modules.home.FragmentHome;
+import com.lpf.oneminute.modules.home.HomePresenter;
 import com.lpf.oneminute.modules.login.adapter.LoginPagerAdapter;
 import com.lpf.oneminute.util.AccountUtil;
 
@@ -47,7 +49,7 @@ public class FragmentLoginOrRegister extends Fragment {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
-    public static FragmentLoginOrRegister getInstance() {
+    public static FragmentLoginOrRegister newInstance() {
         FragmentLoginOrRegister mInstance = new FragmentLoginOrRegister();
         return mInstance;
     }
@@ -72,24 +74,28 @@ public class FragmentLoginOrRegister extends Fragment {
 
         toolbar.setNavigationIcon(R.mipmap.menu);
 
-        // show login or logout
+        // show login or btn_logout
 //        BmobUser user = BmobUser.getCurrentUser();
 
         LocalUser user = AccountUtil.getLoginUser(mContext);
         if (user != null) {
-            toolbar.setTitle("personal details:");
-            tablayout.setVisibility(View.GONE);
-            registerLoginLayout.setVisibility(View.GONE);
-            logoutLayout.setVisibility(View.VISIBLE);
+//            toolbar.setTitle("personal details:");
+//            tablayout.setVisibility(View.GONE);
+//            registerLoginLayout.setVisibility(View.GONE);
+//            logoutLayout.setVisibility(View.VISIBLE);
+//
+//            userName.setText(user.getName());
+//            btnLogout.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    BmobUser.logOut();
+//                    ((MainActivity) getActivity()).switchToFragment(FragmentLoginOrRegister.newInstance());
+//                }
+//            });
 
-            userName.setText(user.getName());
-            btnLogout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    BmobUser.logOut();
-                    ((MainActivity) getActivity()).switchToFragment(FragmentLoginOrRegister.getInstance());
-                }
-            });
+            FragmentHome homeFragment = new FragmentHome();
+            new HomePresenter(getActivity(), homeFragment);
+            ((MainActivity) getActivity()).switchToFragment(homeFragment);
         } else {
             initUI();
         }

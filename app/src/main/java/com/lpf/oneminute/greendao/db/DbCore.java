@@ -44,7 +44,8 @@ public class DbCore {
         if(daoMaster == null){
 
             DaoMaster.OpenHelper helper = new MyOpenHelper(mContext,REAL_DB_NAME);
-            daoMaster = new DaoMaster(helper.getEncryptedReadableDb("password"));
+//            daoMaster = new DaoMaster(helper.getEncryptedReadableDb("password"));
+            daoMaster = new DaoMaster(helper.getWritableDatabase());
         }
         return daoMaster;
     }

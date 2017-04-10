@@ -10,15 +10,16 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import com.github.ikidou.fragmentBackHandler.BackHandlerHelper;
 import com.lpf.oneminute.listeners.OnProgressShowListener;
 import com.lpf.oneminute.modules.home.FragmentHome;
 import com.lpf.oneminute.modules.home.HomePresenter;
@@ -27,11 +28,12 @@ import com.lpf.oneminute.modules.recordmoney.FragmentRecordMoney;
 import com.lpf.oneminute.modules.recordmoney.FragmentRecordMoneyShow;
 import com.lpf.oneminute.modules.recordnote.FragmentRecordNote;
 import com.lpf.oneminute.modules.recordnote.FragmentRecordNoteShow;
+import com.lpf.oneminute.util.DailyWordUtil;
+
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static android.R.id.toggle;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnProgressShowListener {
@@ -89,8 +91,10 @@ public class MainActivity extends AppCompatActivity
         new HomePresenter(MainActivity.this, homeFragment);
 
 //        navView.getMenu().findItem(R.id.nav_login).setChecked(true);
-        switchToFragment(FragmentLoginOrRegister.getInstance());    // set current Fragment
+        switchToFragment(FragmentLoginOrRegister.newInstance());    // set current Fragment
 
+        LinearLayout linearLayout = (LinearLayout)navView.getHeaderView(0);
+        ((TextView)linearLayout.findViewById(R.id.header_word)).setText(DailyWordUtil.getDayWord());
     }
 
     @Override
@@ -99,29 +103,10 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if(!BackHandlerHelper.handleBackPress(this)){
+                super.onBackPressed();
+            }
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -130,7 +115,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_login) {
-            switchToFragment(FragmentLoginOrRegister.getInstance());
+            switchToFragment(FragmentLoginOrRegister.newInstance());
         } else if (id == R.id.nav_add_note) {
             switchToFragment(FragmentRecordNote.getInstance());
         } else if (id == R.id.nav_note_show) {
@@ -139,9 +124,6 @@ public class MainActivity extends AppCompatActivity
             switchToFragment(FragmentRecordMoney.getInstance());
         } else if (id == R.id.nav_money_show) {
             switchToFragment(FragmentRecordMoneyShow.getInstance());
-
-        } else if (id == R.id.nav_send) {
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -174,4 +156,6 @@ public class MainActivity extends AppCompatActivity
     public void hideDrawer() {
         drawerLayout.closeDrawer(GravityCompat.END);
     }
+
+
 }

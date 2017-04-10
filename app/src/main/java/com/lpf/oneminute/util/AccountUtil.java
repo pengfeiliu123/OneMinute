@@ -6,6 +6,8 @@ import android.text.TextUtils;
 import com.lpf.common.util.PreferenceUtil;
 import com.lpf.oneminute.App;
 import com.lpf.oneminute.MainActivity;
+import com.lpf.oneminute.greendao.db.DbUtil;
+import com.lpf.oneminute.greendao.db.LocalUserHelper;
 import com.lpf.oneminute.greendao.gen.LocalUserDao;
 import com.lpf.oneminute.greendao.localBean.LocalUser;
 import com.lpf.oneminute.modules.login.view.FragmentLoginOrRegister;
@@ -43,7 +45,8 @@ public class AccountUtil {
 
         String loginUserId = PreferenceUtil.getStringValue(context, "userId");
         if(!TextUtils.isEmpty(loginUserId)){
-            LocalUserDao userDao = App.getInstance().getDaoSession().getLocalUserDao();
+//            LocalUserDao userDao = App.newInstance().getDaoSession().getLocalUserDao();
+            LocalUserHelper userDao = DbUtil.getlocalUserHelper();
             Query query = userDao.queryBuilder().where(LocalUserDao.Properties.UserId.eq(loginUserId)).build();
             List<LocalUser> list = query.list();
             if (list != null && list.size() > 0) {
@@ -57,5 +60,12 @@ public class AccountUtil {
         String loginUserId = PreferenceUtil.getStringValue(context, "userId");
         return loginUserId;
     }
+
+
+    public static void resetLoginUser(Context context){
+        PreferenceUtil.putStringValue(context, "userName",null);
+        PreferenceUtil.putStringValue(context, "userId",null);
+    }
+
 
 }

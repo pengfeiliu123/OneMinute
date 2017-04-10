@@ -18,7 +18,7 @@
             <TextView
                 android:id="@+id/item_note_time"
                 android:layout_width="match_parent"
-                android:gravity="right"
+                android:gravity="center"
                 android:textSize="@dimen/item_rv_time_size"
                 android:layout_height="wrap_content" />
 
@@ -26,7 +26,7 @@
                 android:id="@+id/item_note_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="right"
+                android:gravity="center"
                 android:textStyle="bold|italic"
                 android:textSize="@dimen/item_rv_title_size"
                 android:layout_below="@id/item_note_time" />
@@ -36,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/item_rv_content_size"
-                android:gravity="right"
+                android:gravity="left"
                 android:layout_below="@id/item_note_title" />
         </LinearLayout>
 

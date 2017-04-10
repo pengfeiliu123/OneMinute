@@ -1,6 +1,6 @@
 package com.lpf.oneminute.greendao.bean;
 
-import cn.bmob.v3.BmobObject;
+//import cn.bmob.v3.BmobObject;
 
 /**
  * Created by liupengfei on 17/2/25 11:05.

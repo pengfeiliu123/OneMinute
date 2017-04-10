@@ -1,48 +1,44 @@
 package com.lpf.oneminute.modules.recordmoney;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.text.Editable;
 import android.text.InputType;
-import android.text.Spannable;
-import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.text.style.BackgroundColorSpan;
-import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.lpf.common.util.Base64Util;
+import com.lpf.common.util.PreferenceUtil;
 import com.lpf.common.util.TimeUtil;
 import com.lpf.common.util.ToastUtil;
-import com.lpf.oneminute.App;
 import com.lpf.oneminute.MainActivity;
 import com.lpf.oneminute.R;
-import com.lpf.oneminute.greendao.gen.LocalMoneyDao;
-import com.lpf.oneminute.greendao.gen.LocalMoneyDetailDao;
+import com.lpf.oneminute.greendao.db.DbUtil;
+import com.lpf.oneminute.greendao.db.LocalMoneyDetailHelper;
+import com.lpf.oneminute.greendao.db.LocalMoneyHelper;
 import com.lpf.oneminute.greendao.localBean.LocalMoney;
 import com.lpf.oneminute.greendao.localBean.LocalMoneyDetail;
 import com.lpf.oneminute.greendao.localBean.LocalUser;
 import com.lpf.oneminute.modules.login.view.FragmentLoginOrRegister;
 import com.lpf.oneminute.util.AccountUtil;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -53,7 +49,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.lpf.oneminute.greendao.gen.LocalMoneyDetailDao.Properties.Cost;
+import static com.lpf.oneminute.global.GlobalConfiguration.MONEYUNIT;
+import static com.lpf.oneminute.global.GlobalConfiguration.MONEYUNITPOSITION;
 
 public class FragmentRecordMoney extends Fragment {
 
@@ -71,8 +68,8 @@ public class FragmentRecordMoney extends Fragment {
     ImageView btnAdd;
     @BindView(R.id.btnOk)
     ImageView btnOk;
-    @BindView(R.id.activity_main)
-    RelativeLayout activityMain;
+    @BindView(R.id.btn_money_setting)
+    ImageView itemMoneySetting;
     private View rootView;
     private Context mContext;
 
@@ -108,11 +105,11 @@ public class FragmentRecordMoney extends Fragment {
 
 //        BmobUser bmobUser = BmobUser.getCurrentUser();
 //        if (null == bmobUser) {
-//            ((MainActivity) getActivity()).switchToFragment(FragmentLoginOrRegister.getInstance());
+//            ((MainActivity) getActivity()).switchToFragment(FragmentLoginOrRegister.newInstance());
 //        }
 
-        if(!AccountUtil.isLogin(mContext)){
-            ((MainActivity) getActivity()).switchToFragment(FragmentLoginOrRegister.getInstance());
+        if (!AccountUtil.isLogin(mContext)) {
+            ((MainActivity) getActivity()).switchToFragment(FragmentLoginOrRegister.newInstance());
         }
     }
 
@@ -139,7 +136,7 @@ public class FragmentRecordMoney extends Fragment {
         }
     }
 
-    @OnClick({R.id.btnAdd, R.id.btnOk})
+    @OnClick({R.id.btnAdd, R.id.btnOk, R.id.btn_money_setting})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnAdd:
@@ -148,7 +145,51 @@ public class FragmentRecordMoney extends Fragment {
             case R.id.btnOk:
                 saveContent();
                 break;
+            case R.id.btn_money_setting:
+                showSettingDialog();
+                break;
         }
+    }
+
+    // show setting dialog
+    private void showSettingDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setIcon(R.mipmap.btn_setting)
+                .setTitle("Default Setting:");
+
+        LinearLayout settingDialog = (LinearLayout) LayoutInflater.from(mContext).inflate(R.layout.d_record_setting, null);
+        builder.setView(settingDialog);
+
+        Spinner spinner = (Spinner) settingDialog.findViewById(R.id.money_unit_spinner);
+        final String[] moneyUnits = getResources().getStringArray(R.array.moneyUnit);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item, moneyUnits);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+//        spinner.setOnItemClickListener(new OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                PreferenceUtil.putStringValue(mContext,MONEYUNIT,moneyUnits[position]);             //修改默认货币符号
+//            }
+//        });
+
+        spinner.setSelection(PreferenceUtil.getIntValue(mContext, MONEYUNITPOSITION));               //获取货币默认位置
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                PreferenceUtil.putStringValue(mContext, MONEYUNIT, moneyUnits[position]);             //修改默认货币符号
+                PreferenceUtil.putIntValue(mContext, MONEYUNITPOSITION, position);             //修改默认货币符号
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        builder.setCancelable(true);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
     }
 
     private void saveContent() {
@@ -166,20 +207,20 @@ public class FragmentRecordMoney extends Fragment {
 
         boolean isReady = true;
         for (int i = 0; i < etContentList.size(); i++) {
-            if(TextUtils.isEmpty(etContentList.get(i).getText().toString())||
-                    TextUtils.isEmpty(etMoneyList.get(i).getText().toString())){
-                ToastUtil.shortShow(mContext,"Please make sure all items were filled");
+            if (TextUtils.isEmpty(etContentList.get(i).getText().toString()) ||
+                    TextUtils.isEmpty(etMoneyList.get(i).getText().toString())) {
+                ToastUtil.shortShow(mContext, "Please make sure all items were filled");
                 isReady = false;
                 return;
             }
         }
 
-        if(isReady){
+        if (isReady) {
             StringBuilder sb = new StringBuilder();
             UnderlineSpan span = new UnderlineSpan();
             for (int i = 0; i < etContentList.size(); i++) {
-                sb.append(i+1).append(".")
-                        .append("[Cost:"+etMoneyList.get(i).getText().toString()+"]:")
+                sb.append(i + 1).append(".")
+                        .append("[Cost:" + etMoneyList.get(i).getText().toString() + "]:")
                         .append(etContentList.get(i).getText().toString()).append("\n");
             }
             content = Base64Util.encode(sb.toString());
@@ -206,26 +247,28 @@ public class FragmentRecordMoney extends Fragment {
 //                }
 //            });
 //        } else {
-//            ((MainActivity) getActivity()).switchToFragment(FragmentLoginOrRegister.getInstance());
+//            ((MainActivity) getActivity()).switchToFragment(FragmentLoginOrRegister.newInstance());
 //        }
 
         LocalUser user = AccountUtil.getLoginUser(mContext);
-        if(user!=null){
+        if (user != null) {
             LocalMoney money = new LocalMoney();
             money.setId(System.currentTimeMillis());
             money.setUserId(user.getUserId());
             money.setTime(TimeUtil.formatDate(new Date()));
             money.setTitle(itemMoneyTitle.getText().toString());
             money.setContent(content);
-            money.setMoneyUnit("￥");
+            money.setMoneyUnit(PreferenceUtil.getStringValue(mContext, MONEYUNIT));
             money.setTotalCost(totalCost + "");
 
-            LocalMoneyDao moneyDao = App.getInstance().getDaoSession().getLocalMoneyDao();
-            long resultCode = moneyDao.insertOrReplace(money);
-            if(resultCode>0){
-                ToastUtil.shortShow(mContext,"add success");
+//            LocalMoneyDao moneyDao = App.newInstance().getDaoSession().getLocalMoneyDao();
+            LocalMoneyHelper moneyDao = DbUtil.getlocalMoneyHelper();
+            long resultCode = moneyDao.insert(money);
+            if (resultCode > 0) {
+                ToastUtil.shortShow(mContext, "add success");
 
-                LocalMoneyDetailDao moneyDetailDao = App.getInstance().getDaoSession().getLocalMoneyDetailDao();
+//                LocalMoneyDetailDao moneyDetailDao = App.newInstance().getDaoSession().getLocalMoneyDetailDao();
+                LocalMoneyDetailHelper moneyDetailDao = DbUtil.getlocalMoneyDetailHelper();
                 for (int i = 0; i < etContentList.size(); i++) {
                     LocalMoneyDetail moneyDetail = new LocalMoneyDetail();
                     moneyDetail.setId(System.currentTimeMillis());
@@ -234,14 +277,14 @@ public class FragmentRecordMoney extends Fragment {
                     moneyDetail.setContent(moneyDetailContent);
                     //because money editText is number type
                     moneyDetail.setCost(Integer.parseInt(etMoneyList.get(i).getText().toString()));
-                    moneyDetailDao.insertOrReplace(moneyDetail);
+                    moneyDetailDao.insertOrUpdate(moneyDetail);
                 }
 
 //                moneyDetailDao.insertOrReplaceInTx(moneyDetails);
 
                 container.removeAllViews();
-            }else{
-                ToastUtil.shortShow(mContext,"add failed,try it later");
+            } else {
+                ToastUtil.shortShow(mContext, "add failed,try it later");
             }
         }
     }

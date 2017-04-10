@@ -18,7 +18,7 @@ public class PreferenceUtil {
     public final static String SETTING = "SharedPrefsStrList";
 
     //save int value
-    private static void putIntValue(Context context, String key, int value) {
+    public static void putIntValue(Context context, String key, int value) {
         SharedPreferences.Editor sp = context.getSharedPreferences(SETTING, Context.MODE_PRIVATE)
                 .edit();
         sp.putInt(key, value);
@@ -144,7 +144,13 @@ public class PreferenceUtil {
 
     public static String getStringValue(Context context, String key){
         SharedPreferences sp = context.getSharedPreferences(SETTING, Context.MODE_PRIVATE);
-        String value = sp.getString(key, null);
+        String value = sp.getString(key, "");
+        return value;
+    }
+
+    public static int getIntValue(Context context, String key){
+        SharedPreferences sp = context.getSharedPreferences(SETTING, Context.MODE_PRIVATE);
+        int value = sp.getInt(key, 0);
         return value;
     }
 
