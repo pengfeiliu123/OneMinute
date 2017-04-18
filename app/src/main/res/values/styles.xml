@@ -47,11 +47,7 @@
     <style name="sub_login_register_et">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginEnd">70dp</item>
-        <item name="android:layout_marginLeft">70dp</item>
-        <item name="android:layout_marginRight">70dp</item>
-        <item name="android:layout_marginStart">70dp</item>
-        <item name="android:layout_marginTop">70dp</item>
+        <item name="android:layout_margin">30dp</item>
     </style>
 
     <!-- spinner -->
