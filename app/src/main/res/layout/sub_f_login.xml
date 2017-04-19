@@ -24,4 +24,14 @@
         android:id="@+id/btn_login"
         style="@style/sub_login_register_et"
         android:text="Login" />
+
+    <TextView
+        android:id="@+id/forget_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|center_vertical"
+        android:layout_marginRight="20dp"
+        android:text="Forget Password"
+        android:textColor="@color/color1"
+        android:textSize="14sp" />
 </LinearLayout>

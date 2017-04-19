@@ -7,13 +7,17 @@ import com.lpf.common.util.PreferenceUtil;
 import com.lpf.oneminute.App;
 import com.lpf.oneminute.MainActivity;
 import com.lpf.oneminute.greendao.db.DbUtil;
+import com.lpf.oneminute.greendao.db.LocalMoneyDetailHelper;
 import com.lpf.oneminute.greendao.db.LocalUserHelper;
+import com.lpf.oneminute.greendao.gen.LocalMoneyDetailDao;
 import com.lpf.oneminute.greendao.gen.LocalUserDao;
+import com.lpf.oneminute.greendao.localBean.LocalMoneyDetail;
 import com.lpf.oneminute.greendao.localBean.LocalUser;
 import com.lpf.oneminute.modules.login.view.FragmentLoginOrRegister;
 
 import org.greenrobot.greendao.query.Query;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -44,7 +48,7 @@ public class AccountUtil {
     public static LocalUser getLoginUser(Context context) {
 
         String loginUserId = PreferenceUtil.getStringValue(context, "userId");
-        if(!TextUtils.isEmpty(loginUserId)){
+        if (!TextUtils.isEmpty(loginUserId)) {
 //            LocalUserDao userDao = App.newInstance().getDaoSession().getLocalUserDao();
             LocalUserHelper userDao = DbUtil.getlocalUserHelper();
             Query query = userDao.queryBuilder().where(LocalUserDao.Properties.UserId.eq(loginUserId)).build();
@@ -56,15 +60,31 @@ public class AccountUtil {
         return null;
     }
 
-    public static String getLoginId(Context context){
+    /**
+     * 根据userName获取用户信息
+     *
+     * @param userName
+     * @return
+     */
+    public static LocalUser getLocalUser(String userName) {
+        LocalUserHelper userDao = DbUtil.getlocalUserHelper();
+        Query query = userDao.queryBuilder().where(LocalUserDao.Properties.Name.eq(userName)).build();
+        List<LocalUser> list = query.list();
+        if (list != null && list.size() > 0) {
+            return list.get(0);
+        }
+        return null;
+    }
+
+    public static String getLoginId(Context context) {
         String loginUserId = PreferenceUtil.getStringValue(context, "userId");
         return loginUserId;
     }
 
 
-    public static void resetLoginUser(Context context){
-        PreferenceUtil.putStringValue(context, "userName",null);
-        PreferenceUtil.putStringValue(context, "userId",null);
+    public static void resetLoginUser(Context context) {
+        PreferenceUtil.putStringValue(context, "userName", null);
+        PreferenceUtil.putStringValue(context, "userId", null);
     }
 
 

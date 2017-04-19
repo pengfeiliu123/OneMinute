@@ -1,9 +1,7 @@
 package com.lpf.oneminute.modules.login.view;
 
 
-import android.app.Activity;
 import android.content.Context;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -12,11 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.lpf.common.util.Base64Util;
 import com.lpf.common.util.PreferenceUtil;
 import com.lpf.common.util.ToastUtil;
-import com.lpf.oneminute.App;
 import com.lpf.oneminute.MainActivity;
 import com.lpf.oneminute.R;
 import com.lpf.oneminute.greendao.db.DbUtil;
@@ -26,19 +24,16 @@ import com.lpf.oneminute.greendao.localBean.LocalUser;
 import com.lpf.oneminute.listeners.OnProgressShowListener;
 import com.lpf.oneminute.modules.home.FragmentHome;
 import com.lpf.oneminute.modules.home.HomePresenter;
-import com.lpf.oneminute.modules.recordnote.FragmentRecordNote;
+import com.lpf.oneminute.modules.home.SubFragmentFindPw;
+import com.lpf.oneminute.util.NavigatorUtil;
 
 import org.greenrobot.greendao.query.Query;
-import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.SaveListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -55,6 +50,8 @@ public class SubFragmentLogin extends Fragment {
     Button btnLogin;
 
     OnProgressShowListener listener;
+    @BindView(R.id.forget_password)
+    TextView forgetPassword;
 
     public static SubFragmentLogin newInstance() {
         SubFragmentLogin loginFragment = new SubFragmentLogin();
@@ -79,18 +76,38 @@ public class SubFragmentLogin extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.sub_f_login, container, false);
         mContext = getActivity();
-        initView();
-
         ButterKnife.bind(this, rootView);
+
         return rootView;
     }
 
-    private void initView() {
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
     }
 
-    @OnClick(R.id.btn_login)
-    public void onClick() {
+    @OnClick(R.id.login_password)
+    public void onViewClicked() {
+    }
+
+    @OnClick({R.id.btn_login, R.id.forget_password})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.btn_login:
+                login();
+                break;
+            case R.id.forget_password:
+                forget();
+                break;
+        }
+    }
+
+    private void forget() {
+        NavigatorUtil.switchToFragment(mContext, SubFragmentFindPw.newInstance());
+    }
+
+    private void login() {
         String userName = loginName.getText().toString();
         String passWord = loginPassword.getText().toString();
         if (TextUtils.isEmpty(userName)) {
@@ -147,20 +164,19 @@ public class SubFragmentLogin extends Fragment {
                         LocalUserDao.Properties.PassWord.eq(passWord)).build();
         List<LocalUser> localUsers = query.list();
 
-         Query<LocalUser> queryName =
+        Query<LocalUser> queryName =
                 localUserDao.queryBuilder().where(
                         LocalUserDao.Properties.Name.eq(userName)).build();
         List<LocalUser> localUserName = queryName.list();
 
 
-
         if (localUsers.size() > 0) {
             isUserExist = true;
-        }else if(localUsers.size() == 0){
-            if(localUserName.size() > 0){
-                ToastUtil.shortShow(mContext,"the password is wrong!");
-            }else{
-                ToastUtil.shortShow(mContext,"the userName is invalid!");
+        } else if (localUsers.size() == 0) {
+            if (localUserName.size() > 0) {
+                ToastUtil.shortShow(mContext, "the password is wrong!");
+            } else {
+                ToastUtil.shortShow(mContext, "the userName is invalid!");
             }
         }
         if (null != listener) {
@@ -168,14 +184,11 @@ public class SubFragmentLogin extends Fragment {
         }
 
         if (isUserExist) {
-            PreferenceUtil.putStringValue(mContext,"userName",userName);
-            PreferenceUtil.putStringValue(mContext,"userId",localUsers.get(0).getUserId()+"");
+            PreferenceUtil.putStringValue(mContext, "userName", userName);
+            PreferenceUtil.putStringValue(mContext, "userId", localUsers.get(0).getUserId() + "");
             FragmentHome homeFragment = new FragmentHome();
             new HomePresenter(getActivity(), homeFragment);
             ((MainActivity) getActivity()).switchToFragment(homeFragment);
         }
-
     }
-
-
 }
