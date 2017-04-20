@@ -10,7 +10,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,10 +37,12 @@ import java.util.Random;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.lpf.oneminute.R.id.toolbar;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnProgressShowListener {
-//    @BindView(R.id.toolbar)
-//    Toolbar toolbar;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     @BindView(R.id.main_container)
     FrameLayout mainContainer;
     @BindView(R.id.progress)
@@ -75,16 +79,16 @@ public class MainActivity extends AppCompatActivity
 
     private void initViews() {
 
-//        toolbar.setTitle("One Minute");
+        toolbar.setTitle("Register/Login");
 //        toolbar.setSubtitle("record your life");
 //        toolbar.setLogo(R.mipmap.ic_launcher);
-//        setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);
 
 
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-//                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        drawerLayout.addDrawerListener(toggle);
-//        toggle.syncState();
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
 
         navView.setNavigationItemSelectedListener(this);
 
@@ -135,6 +139,10 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.main_container, fragment);
         transaction.commitAllowingStateLoss();
+    }
+
+    public void changeTitle(String title){
+        toolbar.setTitle(title);
     }
 
     @Override

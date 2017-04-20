@@ -17,4 +17,9 @@ public class NavigatorUtil {
     public static void switchToFragment(Context context, Fragment toFragment) {
         ((MainActivity) context).switchToFragment(toFragment);
     }
+
+    // change toolbar title
+    public static void changeToolTitle(Context context, String title) {
+        ((MainActivity) context).changeTitle(title);
+    }
 }

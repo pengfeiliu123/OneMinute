@@ -26,6 +26,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.bmob.v3.BmobUser;
 
+import static com.lpf.oneminute.R.id.toolbar;
+
 /**
  * Login and Register Page
  */
@@ -46,8 +48,8 @@ public class FragmentLoginOrRegister extends Fragment {
     LoginPagerAdapter mAdapter;
     View rootView;
     Context mContext;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
+//    @BindView(R.id.toolbar)
+//    Toolbar toolbar;
 
     public static FragmentLoginOrRegister newInstance() {
         FragmentLoginOrRegister mInstance = new FragmentLoginOrRegister();
@@ -72,7 +74,7 @@ public class FragmentLoginOrRegister extends Fragment {
 
     private void initViews() {
 
-        toolbar.setNavigationIcon(R.mipmap.menu);
+//        toolbar.setNavigationIcon(R.mipmap.menu);
 
         // show login or btn_logout
 //        BmobUser user = BmobUser.getCurrentUser();
@@ -106,7 +108,7 @@ public class FragmentLoginOrRegister extends Fragment {
         registerLoginLayout.setAdapter(mAdapter);
         tablayout.setupWithViewPager(registerLoginLayout);
         tablayout.setTabMode(TabLayout.MODE_FIXED);
-        toolbar.setTitle("Login/Register");
+//        toolbar.setTitle("Login/Register");
     }
 
 

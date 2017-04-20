@@ -24,6 +24,7 @@ import com.lpf.oneminute.greendao.db.LocalNoteHelper;
 import com.lpf.oneminute.greendao.localBean.LocalNote;
 import com.lpf.oneminute.modules.login.view.FragmentLoginOrRegister;
 import com.lpf.oneminute.util.AccountUtil;
+import com.lpf.oneminute.util.NavigatorUtil;
 
 import java.util.Date;
 
@@ -64,6 +65,8 @@ public class FragmentRecordNote extends Fragment {
     }
 
     private void initViews() {
+
+        NavigatorUtil.changeToolTitle(mContext,"Write your story");
 
 //        BmobUser bmobUser = BmobUser.getCurrentUser();
 //        if (null == bmobUser) {

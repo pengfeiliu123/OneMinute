@@ -39,6 +39,7 @@ import com.lpf.oneminute.greendao.localBean.LocalMoneyDetail;
 import com.lpf.oneminute.greendao.localBean.LocalUser;
 import com.lpf.oneminute.modules.login.view.FragmentLoginOrRegister;
 import com.lpf.oneminute.util.AccountUtil;
+import com.lpf.oneminute.util.NavigatorUtil;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -102,6 +103,8 @@ public class FragmentRecordMoney extends Fragment {
     }
 
     private void initViews() {
+
+        NavigatorUtil.changeToolTitle(mContext,"Write a bill");
 
 //        BmobUser bmobUser = BmobUser.getCurrentUser();
 //        if (null == bmobUser) {

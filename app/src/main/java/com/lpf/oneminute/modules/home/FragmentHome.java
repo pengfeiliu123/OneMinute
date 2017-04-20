@@ -1,26 +1,31 @@
 package com.lpf.oneminute.modules.home;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.lpf.common.util.ToastUtil;
 import com.lpf.oneminute.MainActivity;
 import com.lpf.oneminute.R;
+import com.lpf.oneminute.greendao.db.DbUtil;
+import com.lpf.oneminute.greendao.db.LocalProtectionHelper;
+import com.lpf.oneminute.greendao.gen.LocalProtectionDao;
+import com.lpf.oneminute.greendao.localBean.LocalProtection;
 import com.lpf.oneminute.listeners.OnRecyclerViewOnClickListener;
 import com.lpf.oneminute.modules.login.view.FragmentLoginOrRegister;
 import com.lpf.oneminute.util.AccountUtil;
 import com.lpf.oneminute.util.NavigatorUtil;
+
+import org.greenrobot.greendao.query.Query;
 
 import java.util.List;
 
@@ -45,6 +50,8 @@ public class FragmentHome extends Fragment implements HomeContract.View {
     ImageView btnHomeLogout;
     @BindView(R.id.user_name)
     TextView userName;
+    @BindView(R.id.safe_image)
+    ImageView safeImage;
 //    @BindView(R.id.home_setting_rv)
 //    RecyclerView homeSettingRv;
 
@@ -76,7 +83,7 @@ public class FragmentHome extends Fragment implements HomeContract.View {
     @Override
     public void onResume() {
         super.onResume();
-        presenter = new HomePresenter(getActivity(),this);
+        presenter = new HomePresenter(getActivity(), this);
         initViews(rootView);
     }
 
@@ -90,16 +97,51 @@ public class FragmentHome extends Fragment implements HomeContract.View {
     @Override
     public void initViews(View view) {
 
+        NavigatorUtil.changeToolTitle(mContext, "OneMinute");
+
         homeRv.setLayoutManager(new GridLayoutManager(getActivity(), 2));
 
         presenter.loadResults();
 
         presenter.loadUserName();
+
+        initSafeImage();
+    }
+
+    boolean safeSmile = false;
+    private void initSafeImage() {
+        LocalProtectionHelper localProtectionHelper = DbUtil.getlocalProtectionHelper();
+        List<LocalProtection> localProtections;
+
+        String userId = AccountUtil.getLoginId(mContext);
+        if (!TextUtils.isEmpty(userId)) {
+            Query<LocalProtection> query =
+                    localProtectionHelper.queryBuilder().where(
+                            LocalProtectionDao.Properties.UserId.eq(userId)).build();
+            localProtections = query.list();
+            if (localProtections.size() > 0) {
+                safeSmile = true;
+                safeImage.setImageDrawable(getResources().getDrawable(R.mipmap.smile));
+            } else {
+                safeImage.setImageDrawable(getResources().getDrawable(R.mipmap.cry));
+            }
+        }
+
+        safeImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(safeSmile){
+                    ToastUtil.shortShow(mContext,"safe question is Ok!");
+                }else{
+                    ToastUtil.shortShow(mContext,"safe question is null");
+                }
+            }
+        });
     }
 
     @Override
     public void showUserName() {
-        userName.setText("Dear "+AccountUtil.getLoginName(mContext) + ", This is your world!");
+        userName.setText("Dear " + AccountUtil.getLoginName(mContext) + ", This is your world!");
     }
 
     @Override
@@ -148,5 +190,10 @@ public class FragmentHome extends Fragment implements HomeContract.View {
         FragmentHomeSetting homeSetting = FragmentHomeSetting.newInstance();
         ((MainActivity) getActivity()).switchToFragment(homeSetting);
 
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
     }
 }

@@ -5,23 +5,22 @@
     android:orientation="vertical"
     tools:context="com.lpf.oneminute.modules.login.view.SubFragmentRegister">
 
-
     <EditText
         android:id="@+id/register_name"
-        android:hint="Name:"
-        android:inputType="textPersonName"
-        style="@style/sub_login_register_et" />
-
-    <EditText
-        android:id="@+id/confirm_pw"
         style="@style/sub_login_register_et"
-        android:hint="Confirm:"
-        android:inputType="textPassword" />
+        android:hint="Name:"
+        android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/register_pw"
         style="@style/sub_login_register_et"
         android:hint="Password:"
+        android:inputType="textPassword" />
+
+    <EditText
+        android:id="@+id/confirm_pw"
+        style="@style/sub_login_register_et"
+        android:hint="Confirm:"
         android:inputType="textPassword" />
 
     <Button

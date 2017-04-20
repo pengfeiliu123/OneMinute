@@ -73,6 +73,8 @@ public class FragmentRecordNoteShow extends Fragment {
 
     private void initView() {
 
+        NavigatorUtil.changeToolTitle(mContext,"Story History");
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         rvNote.setLayoutManager(layoutManager);
         mAdapter = new NoteAdapter(mContext, datas);

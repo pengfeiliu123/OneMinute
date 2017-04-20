@@ -15,6 +15,7 @@ import com.lpf.common.util.AnimationUtil;
 import com.lpf.common.util.Base64Util;
 import com.lpf.common.util.ToastUtil;
 import com.lpf.oneminute.R;
+import com.lpf.oneminute.base.BaseFragment;
 import com.lpf.oneminute.greendao.db.DbUtil;
 import com.lpf.oneminute.greendao.db.LocalProtectionHelper;
 import com.lpf.oneminute.greendao.localBean.LocalProtection;
@@ -33,7 +34,7 @@ import butterknife.OnClick;
 /**
  * 修改密码
  */
-public class SubFragmentFindPw extends Fragment {
+public class SubFragmentFindPw extends BaseFragment {
 
     @BindView(R.id.et_safe_question_1)
     EditText etSafeQuestion1;
@@ -82,7 +83,7 @@ public class SubFragmentFindPw extends Fragment {
     }
 
     private void initViews() {
-
+        NavigatorUtil.changeToolTitle(mContext, "Find Password");
     }
 
 
@@ -138,6 +139,10 @@ public class SubFragmentFindPw extends Fragment {
         }
 
         LocalUser localUser = AccountUtil.getLocalUser(userName);
+        if (localUser == null) {
+            ToastUtil.shortShow(mContext,"sorry, the userName is not exist!");
+            return;
+        }
         LocalProtection localProtection = ProtectionUtil.getLocalProtection(localUser.getUserId());
 
         if (localProtection == null) {
@@ -165,6 +170,13 @@ public class SubFragmentFindPw extends Fragment {
         }
     }
 
+
+    @Override
+    public boolean interceptBackPressed() {
+        FragmentLoginOrRegister fragmentLoginOrRegister = new FragmentLoginOrRegister();
+        NavigatorUtil.switchToFragment(getActivity(), fragmentLoginOrRegister);
+        return true;
+    }
 
     @Override
     public void onDestroyView() {

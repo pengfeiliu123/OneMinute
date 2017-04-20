@@ -65,6 +65,8 @@ public class FragmentRecordMoneyShow extends Fragment {
 
     private void initView() {
 
+        NavigatorUtil.changeToolTitle(mContext,"Bill History");
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         rvMoney.setLayoutManager(layoutManager);
         mAdapter = new MoneyAdapter(mContext, datas);

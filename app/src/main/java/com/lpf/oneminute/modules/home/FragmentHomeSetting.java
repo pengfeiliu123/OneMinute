@@ -15,12 +15,13 @@ import android.widget.RelativeLayout;
 import com.github.ikidou.fragmentBackHandler.BackHandledFragment;
 import com.lpf.oneminute.MainActivity;
 import com.lpf.oneminute.R;
+import com.lpf.oneminute.base.BaseFragment;
 import com.lpf.oneminute.util.NavigatorUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class FragmentHomeSetting extends BackHandledFragment {
+public class FragmentHomeSetting extends BaseFragment {
 
 
     @BindView(R.id.home_setting_tablayout)
@@ -51,6 +52,8 @@ public class FragmentHomeSetting extends BackHandledFragment {
 
     private void initViews() {
 
+        NavigatorUtil.changeToolTitle(getActivity(), "Setting");
+
         mAdapter = new HomeSettingAdapter(getChildFragmentManager(), mContext);
         homeSettingViewpager.setAdapter(mAdapter);
         homeSettingTablayout.setupWithViewPager(homeSettingViewpager);
@@ -60,7 +63,7 @@ public class FragmentHomeSetting extends BackHandledFragment {
     @Override
     public boolean interceptBackPressed() {
         FragmentHome fragmentHome = new FragmentHome();
-        NavigatorUtil.switchToFragment(getActivity(),fragmentHome);
+        NavigatorUtil.switchToFragment(getActivity(), fragmentHome);
         return true;
     }
 }
