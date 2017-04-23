@@ -23,7 +23,7 @@ public class HomeSettingAdapter extends FragmentPagerAdapter{
         super(fm);
         this.mContext = mContext;
 
-        tabTitles = mContext.getResources().getStringArray(R.array.home_setting_tablayout);
+        tabTitles = mContext.getResources().getStringArray(R.array.home_setting);
     }
 
     @Override

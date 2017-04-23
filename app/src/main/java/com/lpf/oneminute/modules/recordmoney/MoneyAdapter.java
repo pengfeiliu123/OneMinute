@@ -17,7 +17,10 @@ import com.lpf.oneminute.R;
 //import com.lpf.oneminute.greendao.bean.Money;
 import com.lpf.oneminute.greendao.localBean.LocalMoney;
 import com.lpf.oneminute.greendao.localBean.LocalMoneyDetail;
+import com.lpf.oneminute.greendao.localBean.LocalNote;
+import com.lpf.oneminute.modules.recordnote.FragmentRecordNoteUpdate;
 import com.lpf.oneminute.util.MoneyUtil;
+import com.lpf.oneminute.util.NavigatorUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -111,7 +114,9 @@ public class MoneyAdapter extends RecyclerView.Adapter<MoneyAdapter.MoneyViewHol
         holder.rootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.shortShow(mContext, "click item" + position);
+                LocalMoney updateMoney = datas.get(position);
+                NavigatorUtil.switchToFragment(mContext, FragmentRecordMoneyUpdate.getInstance(updateMoney));
+
             }
         });
     }

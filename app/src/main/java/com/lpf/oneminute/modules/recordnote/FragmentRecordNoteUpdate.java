@@ -1,19 +1,22 @@
 package com.lpf.oneminute.modules.recordnote;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.lpf.common.interfaces.AlertDialogInterface;
+import com.lpf.common.util.AlertDialogUtil;
 import com.lpf.common.util.Base64Util;
 import com.lpf.common.util.PreferenceUtil;
 import com.lpf.common.util.TimeUtil;
@@ -24,7 +27,6 @@ import com.lpf.oneminute.base.BaseFragment;
 import com.lpf.oneminute.greendao.db.DbUtil;
 import com.lpf.oneminute.greendao.db.LocalNoteHelper;
 import com.lpf.oneminute.greendao.localBean.LocalNote;
-import com.lpf.oneminute.modules.home.FragmentHome;
 import com.lpf.oneminute.modules.login.view.FragmentLoginOrRegister;
 import com.lpf.oneminute.util.AccountUtil;
 import com.lpf.oneminute.util.NavigatorUtil;
@@ -35,32 +37,38 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class FragmentRecordNote extends BaseFragment {
+import static android.R.id.message;
+
+public class FragmentRecordNoteUpdate extends BaseFragment {
 
     Context mContext;
     View rootView;
-    @BindView(R.id.note_title)
+    @BindView(R.id.note_title_update)
     EditText noteTitle;
-    @BindView(R.id.note_content)
+    @BindView(R.id.note_content_update)
     EditText noteContent;
-    @BindView(R.id.btn_note_reset)
+    @BindView(R.id.btn_note_reset_update)
     ImageView btnNoteReset;
-    @BindView(R.id.btn_note_ok)
+    @BindView(R.id.btn_note_ok_update)
     ImageView btnNoteOk;
-    @BindView(R.id.btn_note_layout)
+    @BindView(R.id.btn_note_layout_update)
     LinearLayout btnNoteLayout;
-    @BindView(R.id.activity_record_note)
+    @BindView(R.id.activity_record_note_update)
     RelativeLayout activityRecordNote;
 
-    public static FragmentRecordNote getInstance() {
-        FragmentRecordNote mInstance = new FragmentRecordNote();
+    private static LocalNote localNote = null;
+    LocalNoteHelper noteDao = DbUtil.getlocalNoteHelper();
+
+    public static FragmentRecordNoteUpdate getInstance(LocalNote updateNote) {
+        FragmentRecordNoteUpdate mInstance = new FragmentRecordNoteUpdate();
+        localNote = updateNote;
         return mInstance;
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.f_record_note, null, false);
+        rootView = inflater.inflate(R.layout.f_record_note_update, null, false);
         mContext = getActivity();
         ButterKnife.bind(this, rootView);
         initViews();
@@ -76,17 +84,21 @@ public class FragmentRecordNote extends BaseFragment {
 //        }
 
         // if log out
-        if(!AccountUtil.isLogin(mContext)){
+        if (!AccountUtil.isLogin(mContext)) {
             ((MainActivity) getActivity()).switchToFragment(FragmentLoginOrRegister.newInstance());
-        }else{
-            NavigatorUtil.changeToolTitle(mContext,"Write your story");
+        } else {
+            NavigatorUtil.changeToolTitle(mContext, "Write your story");
+            if (localNote != null) {
+                noteTitle.setText(localNote.getTitle());
+                noteContent.setText(Base64Util.decode(localNote.getContent()));
+            }
         }
     }
 
-    @OnClick({R.id.btn_note_ok, R.id.btn_note_reset})
+    @OnClick({R.id.btn_note_ok_update, R.id.btn_note_reset_update})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btn_note_ok:
+            case R.id.btn_note_ok_update:
                 String title = noteTitle.getText().toString();
                 String content = noteContent.getText().toString();
                 if (TextUtils.isEmpty(title)) {
@@ -116,37 +128,53 @@ public class FragmentRecordNote extends BaseFragment {
 //                });
 
                 LocalNote note = new LocalNote();
-                note.setId(System.currentTimeMillis());
-                note.setUserId(PreferenceUtil.getStringValue(mContext, "userId"));
+                note.setId(localNote.getId());
+                note.setUserId(localNote.getUserId());
                 note.setTitle(title);
                 note.setContent(content);
                 note.setTime(TimeUtil.formatDate(new Date()));
 
 //                LocalNoteDao noteDao = App.newInstance().getDaoSession().getLocalNoteDao();
-                LocalNoteHelper noteDao = DbUtil.getlocalNoteHelper();
-                long resultCode = noteDao.insert(note);
-                if (resultCode > 0) {
-                    ToastUtil.shortShow(mContext,"add note success");
-                    resetNote();
-                }else{
-                    ToastUtil.shortShow(mContext,"add failed, try it later");
+
+                try {
+                    noteDao.update(note);
+                    ToastUtil.shortShow(mContext, "update note success");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    ToastUtil.shortShow(mContext, "update failed, try it later");
                 }
                 break;
-            case R.id.btn_note_reset:
-                resetNote();
+            case R.id.btn_note_reset_update:
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                builder.setTitle("Sure to Delete ?");
+                builder.setMessage("This cannot be recovered.");
+                builder.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        noteDao.delete(localNote);
+                        FragmentRecordNoteShow fragmentRecordNoteShow = FragmentRecordNoteShow.getInstance();
+                        NavigatorUtil.switchToFragment(mContext, fragmentRecordNoteShow);
+                    }
+                });
+
+                builder.setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.setCancelable(true);
+                dialog.setCanceledOnTouchOutside(false);
+                dialog.show();
                 break;
         }
     }
 
-    private void resetNote() {
-        noteTitle.setText("");
-        noteContent.setText("");
-    }
-
     @Override
     public boolean interceptBackPressed() {
-        FragmentHome fragmentHome = new FragmentHome();
-        NavigatorUtil.switchToFragment(getActivity(), fragmentHome);
+        FragmentRecordNoteShow fragmentRecordNoteShow = new FragmentRecordNoteShow();
+        NavigatorUtil.switchToFragment(getActivity(), fragmentRecordNoteShow);
         return true;
     }
 }

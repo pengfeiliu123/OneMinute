@@ -15,6 +15,7 @@ import com.lpf.common.util.AnimationUtil;
 import com.lpf.common.util.Base64Util;
 import com.lpf.common.util.ToastUtil;
 import com.lpf.oneminute.R;
+import com.lpf.oneminute.base.BaseFragment;
 import com.lpf.oneminute.greendao.db.DbUtil;
 import com.lpf.oneminute.greendao.localBean.LocalUser;
 import com.lpf.oneminute.modules.login.view.FragmentLoginOrRegister;
@@ -28,7 +29,7 @@ import butterknife.OnClick;
 /**
  * 修改密码
  */
-public class SubFragmentChangePw extends Fragment {
+public class SubFragmentChangePw extends BaseFragment {
 
 
     @BindView(R.id.et_old_pw)
@@ -141,5 +142,9 @@ public class SubFragmentChangePw extends Fragment {
         }
     }
 
-
+    @Override
+    public boolean interceptBackPressed() {
+        NavigatorUtil.switchToFragment(getActivity(), FragmentHomeSetting.newInstance());
+        return true;
+    }
 }

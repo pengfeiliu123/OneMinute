@@ -10,13 +10,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.lpf.common.util.ToastUtil;
 import com.lpf.oneminute.R;
+import com.lpf.oneminute.base.BaseFragment;
 import com.lpf.oneminute.greendao.db.DbUtil;
 import com.lpf.oneminute.greendao.db.LocalMoneyHelper;
 import com.lpf.oneminute.greendao.gen.LocalMoneyDao;
 import com.lpf.oneminute.greendao.localBean.LocalMoney;
+import com.lpf.oneminute.modules.home.FragmentHome;
 import com.lpf.oneminute.modules.login.view.FragmentLoginOrRegister;
 import com.lpf.oneminute.util.AccountUtil;
 import com.lpf.oneminute.util.NavigatorUtil;
@@ -32,13 +35,13 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragmentRecordMoneyShow extends Fragment {
+public class FragmentRecordMoneyShow extends BaseFragment {
 
 
     @BindView(R.id.rv_money)
     RecyclerView rvMoney;
     @BindView(R.id.btn_jump_record)
-    Button btnJumpRecord;
+    ImageView btnJumpRecord;
     private Context mContext;
     private View rootView;
     private MoneyAdapter mAdapter;
@@ -65,7 +68,7 @@ public class FragmentRecordMoneyShow extends Fragment {
 
     private void initView() {
 
-        NavigatorUtil.changeToolTitle(mContext,"Bill History");
+
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         rvMoney.setLayoutManager(layoutManager);
@@ -76,8 +79,10 @@ public class FragmentRecordMoneyShow extends Fragment {
 
         if (!AccountUtil.isLogin(mContext)) {
             NavigatorUtil.switchToFragment(mContext, FragmentLoginOrRegister.newInstance());
+        }else{
+            NavigatorUtil.changeToolTitle(mContext,"Bill History");
+            requestFromLocal();
         }
-        requestFromLocal();
     }
 
     private void requestFromLocal() {
@@ -100,7 +105,7 @@ public class FragmentRecordMoneyShow extends Fragment {
             datas.addAll(localMoneyList);
             mAdapter.notifyDataSetChanged();
         } else {
-            ToastUtil.shortShow(mContext, "no record");
+            ToastUtil.shortShow(mContext, "Sorry, record is empty!");
             btnJumpRecord.setVisibility(View.VISIBLE);
             btnJumpRecord.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -138,5 +143,12 @@ public class FragmentRecordMoneyShow extends Fragment {
 //            });
 //        }
 //    }
+
+    @Override
+    public boolean interceptBackPressed() {
+        FragmentHome fragmentHome = new FragmentHome();
+        NavigatorUtil.switchToFragment(getActivity(), fragmentHome);
+        return true;
+    }
 
 }

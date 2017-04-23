@@ -3,12 +3,12 @@ package com.lpf.oneminute.modules.home;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.RelativeLayout;
 
 import com.lpf.oneminute.R;
 import com.lpf.oneminute.base.BaseFragment;
@@ -16,22 +16,22 @@ import com.lpf.oneminute.util.NavigatorUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
-public class FragmentHomeSetting extends BaseFragment {
+public class FragmentHomeSettingCopy extends BaseFragment {
 
-    @BindView(R.id.btn_change_pwd)
-    CardView btnChangePwd;
-    @BindView(R.id.btn_safe_question)
-    CardView btnSafeQuestion;
-    //    @BindView(R.id.home_setting)
-//    RecyclerView homeSettingRv;
+
+    @BindView(R.id.home_setting_tablayout)
+    TabLayout homeSettingTablayout;
+    @BindView(R.id.home_setting_viewpager)
+    ViewPager homeSettingViewpager;
+    @BindView(R.id.activity_home_setting)
+    RelativeLayout activityHomeSetting;
     private Context mContext;
-    //    private HomeSettingRvAdapter mAdapter;
+    private HomeSettingAdapter mAdapter;
     private View rootView;
 
-    public static FragmentHomeSetting newInstance() {
-        FragmentHomeSetting homeSetting = new FragmentHomeSetting();
+    public static FragmentHomeSettingCopy newInstance() {
+        FragmentHomeSettingCopy homeSetting = new FragmentHomeSettingCopy();
         return homeSetting;
     }
 
@@ -50,6 +50,10 @@ public class FragmentHomeSetting extends BaseFragment {
 
         NavigatorUtil.changeToolTitle(getActivity(), "Setting");
 
+        mAdapter = new HomeSettingAdapter(getChildFragmentManager(), mContext);
+        homeSettingViewpager.setAdapter(mAdapter);
+        homeSettingTablayout.setupWithViewPager(homeSettingViewpager);
+        homeSettingTablayout.setTabMode(TabLayout.MODE_FIXED);
     }
 
     @Override
@@ -57,22 +61,5 @@ public class FragmentHomeSetting extends BaseFragment {
         FragmentHome fragmentHome = new FragmentHome();
         NavigatorUtil.switchToFragment(getActivity(), fragmentHome);
         return true;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
-
-    @OnClick({R.id.btn_change_pwd, R.id.btn_safe_question})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.btn_change_pwd:
-                NavigatorUtil.switchToFragment(mContext, SubFragmentChangePw.newInstance());
-                break;
-            case R.id.btn_safe_question:
-                NavigatorUtil.switchToFragment(mContext, SubFragmentFindPw.newInstance());
-                break;
-        }
     }
 }

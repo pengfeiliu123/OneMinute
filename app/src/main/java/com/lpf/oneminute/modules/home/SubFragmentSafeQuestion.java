@@ -14,11 +14,13 @@ import android.widget.TextView;
 import com.lpf.common.util.AnimationUtil;
 import com.lpf.common.util.ToastUtil;
 import com.lpf.oneminute.R;
+import com.lpf.oneminute.base.BaseFragment;
 import com.lpf.oneminute.greendao.db.DbUtil;
 import com.lpf.oneminute.greendao.db.LocalProtectionHelper;
 import com.lpf.oneminute.greendao.gen.LocalProtectionDao;
 import com.lpf.oneminute.greendao.localBean.LocalProtection;
 import com.lpf.oneminute.util.AccountUtil;
+import com.lpf.oneminute.util.NavigatorUtil;
 
 import org.greenrobot.greendao.query.Query;
 
@@ -31,7 +33,7 @@ import butterknife.OnClick;
 /**
  * 修改密码
  */
-public class SubFragmentSafeQuestion extends Fragment {
+public class SubFragmentSafeQuestion extends BaseFragment {
 
 
     @BindView(R.id.img_safe)
@@ -169,5 +171,11 @@ public class SubFragmentSafeQuestion extends Fragment {
     private void setImageCry(){
         imgSafe.setImageDrawable(getResources().getDrawable(R.mipmap.cry));
         tvSafe.setText("Safe Question is Null");
+    }
+
+    @Override
+    public boolean interceptBackPressed() {
+        NavigatorUtil.switchToFragment(getActivity(), FragmentHomeSetting.newInstance());
+        return true;
     }
 }

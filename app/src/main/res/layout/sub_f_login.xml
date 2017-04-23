@@ -20,9 +20,10 @@
         android:hint="Password:"
         android:inputType="textPassword" />
 
-    <Button
+    <ImageView
         android:id="@+id/btn_login"
         style="@style/sub_login_register_et"
+        android:src="@mipmap/btn_ok"
         android:text="Login" />
 
     <TextView
@@ -32,6 +33,6 @@
         android:layout_gravity="right|center_vertical"
         android:layout_marginRight="20dp"
         android:text="Forget Password"
-        android:textColor="@color/color1"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="14sp" />
 </LinearLayout>

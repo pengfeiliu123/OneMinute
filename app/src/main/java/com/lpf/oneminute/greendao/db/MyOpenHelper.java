@@ -23,14 +23,5 @@ public class MyOpenHelper extends DaoMaster.OpenHelper {
     @Override
     public void onUpgrade(Database db, int oldVersion, int newVersion) {
 
-        switch (oldVersion){
-            case 2:
-                LocalProtectionDao.createTable(db,true);
-
-                break;
-            case 3:
-                break;
-
-        }
     }
 }

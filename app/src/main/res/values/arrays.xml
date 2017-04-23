@@ -73,9 +73,9 @@
 
     </string-array>
 
-    <string-array name="home_setting_tablayout">
-        <item>找回密码</item>
-        <item>密保问题</item>
+    <string-array name="home_setting">
+        <item>Change Password</item>
+        <item>Safe Question</item>
     </string-array>
 
 

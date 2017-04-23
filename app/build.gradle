@@ -4,7 +4,7 @@ apply plugin: 'org.greenrobot.greendao'
 apply plugin: 'android-apt'
 
 def versionMajor = 1
-def versionBuild = 1
+def versionBuild = 01
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
@@ -72,7 +72,7 @@ android {
 
 
 greendao {
-    schemaVersion 3
+    schemaVersion 1
     daoPackage 'com.lpf.oneminute.greendao.gen'
     targetGenDir 'src/main/java'
 }

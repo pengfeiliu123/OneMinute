@@ -9,21 +9,18 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.lpf.common.util.ToastUtil;
-import com.lpf.oneminute.App;
-import com.lpf.oneminute.MainActivity;
 import com.lpf.oneminute.R;
-//import com.lpf.oneminute.greendao.bean.Note;
+import com.lpf.oneminute.base.BaseFragment;
 import com.lpf.oneminute.greendao.db.DbUtil;
 import com.lpf.oneminute.greendao.db.LocalNoteHelper;
-import com.lpf.oneminute.greendao.gen.LocalMoneyDao;
 import com.lpf.oneminute.greendao.gen.LocalNoteDao;
-import com.lpf.oneminute.greendao.gen.LocalUserDao;
-import com.lpf.oneminute.greendao.localBean.LocalMoney;
 import com.lpf.oneminute.greendao.localBean.LocalNote;
-import com.lpf.oneminute.greendao.localBean.LocalUser;
+import com.lpf.oneminute.modules.home.FragmentHome;
 import com.lpf.oneminute.modules.login.view.FragmentLoginOrRegister;
+import com.lpf.oneminute.modules.recordmoney.FragmentRecordMoney;
 import com.lpf.oneminute.util.AccountUtil;
 import com.lpf.oneminute.util.NavigatorUtil;
 
@@ -34,18 +31,19 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.FindListener;
+import butterknife.OnClick;
+
+//import com.lpf.oneminute.greendao.bean.Note;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragmentRecordNoteShow extends Fragment {
+public class FragmentRecordNoteShow extends BaseFragment {
 
     @BindView(R.id.rv_note)
     RecyclerView rvNote;
+    @BindView(R.id.btn_jump_story)
+    ImageView btnJumpStory;
 
     private Context mContext;
     private View rootView;
@@ -73,19 +71,21 @@ public class FragmentRecordNoteShow extends Fragment {
 
     private void initView() {
 
-        NavigatorUtil.changeToolTitle(mContext,"Story History");
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
-        rvNote.setLayoutManager(layoutManager);
-        mAdapter = new NoteAdapter(mContext, datas);
-        rvNote.setAdapter(mAdapter);
 
 //        requestFromServer();
 
-        if(!AccountUtil.isLogin(mContext)){
-            NavigatorUtil.switchToFragment(mContext,FragmentLoginOrRegister.newInstance());
+        if (!AccountUtil.isLogin(mContext)) {
+            NavigatorUtil.switchToFragment(mContext, FragmentLoginOrRegister.newInstance());
+        }else{
+            NavigatorUtil.changeToolTitle(mContext, "Story History");
+
+            LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+            rvNote.setLayoutManager(layoutManager);
+            mAdapter = new NoteAdapter(mContext, datas);
+            rvNote.setAdapter(mAdapter);
+            requestFromLocal();
         }
-        requestFromLocal();
     }
 
     // request from local
@@ -105,8 +105,21 @@ public class FragmentRecordNoteShow extends Fragment {
         if (datas != null) {
             datas.clear();
         }
-        datas.addAll(localNoteList);
-        mAdapter.notifyDataSetChanged();
+
+        if (localNoteList != null && localNoteList.size() > 0) {
+            datas.addAll(localNoteList);
+            mAdapter.notifyDataSetChanged();
+        } else {
+            ToastUtil.shortShow(mContext, "Sorry, story is empty!");
+            btnJumpStory.setVisibility(View.VISIBLE);
+            btnJumpStory.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    NavigatorUtil.switchToFragment(mContext, FragmentRecordNote.getInstance());
+                }
+            });
+        }
+
     }
 
     //todo 需要添加分页查询
@@ -132,4 +145,15 @@ public class FragmentRecordNoteShow extends Fragment {
 //        }
 //    }
 
+    @Override
+    public boolean interceptBackPressed() {
+        FragmentHome fragmentHome = new FragmentHome();
+        NavigatorUtil.switchToFragment(getActivity(), fragmentHome);
+        return true;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
 }

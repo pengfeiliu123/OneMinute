@@ -23,8 +23,9 @@
         android:hint="Confirm:"
         android:inputType="textPassword" />
 
-    <Button
+    <ImageView
         android:id="@+id/btn_register"
         style="@style/sub_login_register_et"
-        android:text="Register" />
+        android:text="Register"
+        android:src="@mipmap/btn_ok"/>
 </LinearLayout>

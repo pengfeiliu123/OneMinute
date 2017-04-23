@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.lpf.common.util.Base64Util;
 import com.lpf.common.util.ToastUtil;
@@ -49,7 +50,7 @@ public class SubFragmentRegister extends Fragment {
     @BindView(R.id.register_pw)
     EditText registerPw;
     @BindView(R.id.btn_register)
-    Button btnRegister;
+    ImageView btnRegister;
     private boolean nameExists;
 
     public static SubFragmentRegister newInstance() {
@@ -71,7 +72,13 @@ public class SubFragmentRegister extends Fragment {
         mContext = getActivity();
         ButterKnife.bind(this, view);
 
+        initViews();
+
         return view;
+    }
+
+    private void initViews() {
+//        NavigatorUtil.changeToolTitle(mContext,"Register");
     }
 
     @OnClick(R.id.btn_register)

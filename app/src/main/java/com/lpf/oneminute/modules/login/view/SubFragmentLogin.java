@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lpf.common.util.Base64Util;
@@ -47,7 +48,7 @@ public class SubFragmentLogin extends Fragment {
     @BindView(R.id.login_password)
     EditText loginPassword;
     @BindView(R.id.btn_login)
-    Button btnLogin;
+    ImageView btnLogin;
 
     OnProgressShowListener listener;
     @BindView(R.id.forget_password)
@@ -78,7 +79,13 @@ public class SubFragmentLogin extends Fragment {
         mContext = getActivity();
         ButterKnife.bind(this, rootView);
 
+        initViews();
+
         return rootView;
+    }
+
+    private void initViews() {
+//        NavigatorUtil.changeToolTitle(mContext,"Login");
     }
 
 
