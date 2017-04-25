@@ -1,7 +1,8 @@
-package com.lpf.oneminute.greendao.db;
+package com.lpf.oneminute.greendao.dbhelper;
 
 import android.content.Context;
 
+import com.lpf.oneminute.greendao.dbhelper.MyOpenHelper;
 import com.lpf.oneminute.greendao.gen.DaoMaster;
 import com.lpf.oneminute.greendao.gen.DaoSession;
 

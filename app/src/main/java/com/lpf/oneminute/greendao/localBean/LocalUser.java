@@ -10,7 +10,7 @@ import org.greenrobot.greendao.annotation.Unique;
 /**
  * Created by liupengfei on 17/3/5 12:42.
  */
-@Entity
+@Entity(generateConstructors = false)
 public class LocalUser {
 
     @Id
@@ -25,14 +25,12 @@ public class LocalUser {
     private String gender;
 
 
-    @Generated(hash = 173344742)
     public LocalUser() {
     }
 
 
-    @Generated(hash = 318755457)
     public LocalUser(long userId, String name, @NotNull String passWord,
-            String address, String gender) {
+                     String address, String gender) {
         this.userId = userId;
         this.name = name;
         this.passWord = passWord;
@@ -82,6 +80,5 @@ public class LocalUser {
     public void setGender(String gender) {
         this.gender = gender;
     }
-
 
 }

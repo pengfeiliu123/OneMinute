@@ -108,13 +108,8 @@ public class LocalUserDao extends AbstractDao<LocalUser, Long> {
 
     @Override
     public LocalUser readEntity(Cursor cursor, int offset) {
-        LocalUser entity = new LocalUser( //
-            cursor.getLong(offset + 0), // userId
-            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // name
-            cursor.getString(offset + 2), // passWord
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // address
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4) // gender
-        );
+        LocalUser entity = new LocalUser();
+        readEntity(cursor, entity, offset);
         return entity;
     }
      

@@ -89,9 +89,6 @@
 -keep class com.flurry.** { *; }
 -dontwarn com.flurry.**
 
-# Preserve Adjust classes
--keep class com.adjust.sdk.** { *; }
--dontwarn com.adjust.sdk.**
 
 -dontwarn com.squareup.picasso.**
 
@@ -109,4 +106,12 @@
 -keep class **.R$* {
     public static final int mobvista*;
 }
+
+#greendao3.2.0,此是针对3.2.0，如果是之前的，可能需要更换下包名
+-keep class org.greenrobot.greendao.**{*;}
+-keepclassmembers class * extends org.greenrobot.greendao.AbstractDao {
+public static java.lang.String TABLENAME;
+}
+-keep class **$Properties
+
 -ignorewarnings

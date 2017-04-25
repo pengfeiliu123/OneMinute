@@ -5,12 +5,9 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.lpf.common.util.PreferenceUtil;
 import com.lpf.common.util.ToastUtil;
-import com.lpf.oneminute.global.GlobalConfiguration;
-import com.lpf.oneminute.greendao.db.DbCore;
-import com.lpf.oneminute.greendao.db.MyOpenHelper;
+import com.lpf.oneminute.greendao.dbhelper.DbCore;
 import com.lpf.oneminute.greendao.gen.DaoMaster;
 import com.lpf.oneminute.greendao.gen.DaoSession;
-import com.nostra13.universalimageloader.utils.L;
 
 import static com.lpf.oneminute.global.GlobalConfiguration.MONEYUNIT;
 
@@ -70,7 +67,7 @@ public class App extends Application {
 
     private void initDataBase(){
         DbCore.init(this,"oneMinuteDb");
-//        DbCore.enableQueryBuilderLog();  //开启调试 log
+        DbCore.enableQueryBuilderLog();  //开启调试 log
     }
 
 
