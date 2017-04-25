@@ -7,12 +7,18 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.NativeExpressAdView;
+import com.google.android.gms.ads.VideoController;
+import com.google.android.gms.ads.VideoOptions;
 import com.lpf.common.util.ToastUtil;
 import com.lpf.oneminute.MainActivity;
 import com.lpf.oneminute.R;
@@ -52,6 +58,8 @@ public class FragmentHome extends Fragment implements HomeContract.View {
     TextView userName;
     @BindView(R.id.safe_image)
     ImageView safeImage;
+    @BindView(R.id.adView)
+    NativeExpressAdView mAdView;
 //    @BindView(R.id.home_setting_rv)
 //    RecyclerView homeSettingRv;
 
@@ -59,6 +67,12 @@ public class FragmentHome extends Fragment implements HomeContract.View {
     private HomeContract.Presenter presenter;
     private HomeAdapter mAdapter;
     private List<HomeBean> mHomeBeanList;
+
+    private static final int INSTALLED_AD = 1;                  // add admob native ads
+    private static final int CONTENT_AD = 2;
+    private static int CURRENT_AD = 1;
+
+    VideoController mVideoController;
 
 //    public static FragmentHome newInstance() {
 //        FragmentHome homeFragment = new FragmentHome();
@@ -106,9 +120,49 @@ public class FragmentHome extends Fragment implements HomeContract.View {
         presenter.loadUserName();
 
         initSafeImage();
+
+        initAdmobExpressAd();
+
     }
 
+    private void initAdmobExpressAd() {
+// Locate the NativeExpressAdView.
+        // Set its video options.
+        mAdView.setVideoOptions(new VideoOptions.Builder()
+                .setStartMuted(true)
+                .build());
+
+        // The VideoController can be used to get lifecycle events and info about an ad's video
+        // asset. One will always be returned by getVideoController, even if the ad has no video
+        // asset.
+        mVideoController = mAdView.getVideoController();
+        mVideoController.setVideoLifecycleCallbacks(new VideoController.VideoLifecycleCallbacks() {
+            @Override
+            public void onVideoEnd() {
+                Log.d("lpftag", "Video playback is finished.");
+                super.onVideoEnd();
+            }
+        });
+
+        // Set an AdListener for the AdView, so the Activity can take action when an ad has finished
+        // loading.
+        mAdView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                if (mVideoController.hasVideoContent()) {
+                    Log.d("lpftag", "Received an ad that contains a video asset.");
+                } else {
+                    Log.d("lpftag", "Received an ad that does not contain a video asset.");
+                }
+            }
+        });
+
+        mAdView.loadAd(new AdRequest.Builder().build());
+    }
+
+
     boolean safeSmile = false;
+
     private void initSafeImage() {
         LocalProtectionHelper localProtectionHelper = DbUtil.getlocalProtectionHelper();
         List<LocalProtection> localProtections;
@@ -130,10 +184,10 @@ public class FragmentHome extends Fragment implements HomeContract.View {
         safeImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(safeSmile){
-                    ToastUtil.shortShow(mContext,"safe question is Ok!");
-                }else{
-                    ToastUtil.shortShow(mContext,"safe question is null");
+                if (safeSmile) {
+                    ToastUtil.shortShow(mContext, "safe question is Ok!");
+                } else {
+                    ToastUtil.shortShow(mContext, "safe question is null");
                 }
             }
         });

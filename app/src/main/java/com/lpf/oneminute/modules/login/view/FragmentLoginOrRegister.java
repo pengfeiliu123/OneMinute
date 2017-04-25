@@ -24,7 +24,7 @@ import com.lpf.oneminute.util.AccountUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cn.bmob.v3.BmobUser;
+//import cn.bmob.v3.BmobUser;
 
 import static com.lpf.oneminute.R.id.toolbar;
 

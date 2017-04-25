@@ -30,10 +30,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.bmob.newim.db.dao.UserDao;
-import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.SaveListener;
+//import cn.bmob.newim.db.dao.UserDao;
+//import cn.bmob.v3.BmobUser;
+//import cn.bmob.v3.exception.BmobException;
+//import cn.bmob.v3.listener.SaveListener;
 
 
 /**

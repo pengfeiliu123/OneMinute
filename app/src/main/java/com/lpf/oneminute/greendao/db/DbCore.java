@@ -5,7 +5,9 @@ import android.content.Context;
 import com.lpf.oneminute.greendao.gen.DaoMaster;
 import com.lpf.oneminute.greendao.gen.DaoSession;
 
-import de.greenrobot.dao.query.QueryBuilder;
+import org.greenrobot.greendao.query.QueryBuilder;
+
+//import de.greenrobot.dao.query.QueryBuilder;
 
 /**
  * Created by liupengfei on 17/3/6 16:45.

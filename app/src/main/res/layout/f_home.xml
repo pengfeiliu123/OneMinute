@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
@@ -59,6 +60,23 @@
         android:layout_gravity="center"
         android:layout_margin="10dp"
         android:layout_weight="1"></android.support.v7.widget.RecyclerView>
+
+    <com.google.android.gms.ads.NativeExpressAdView
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        ads:adSize="320x132"
+        ads:adUnitId="ca-app-pub-7702253890707460/7329209438" />
+
+    <!--<com.google.android.gms.ads.AdView-->
+        <!--android:id="@+id/adView2"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--ads:adSize="BANNER"-->
+        <!--ads:adUnitId="ca-app-pub-7702253890707460/8526741039"></com.google.android.gms.ads.AdView>-->
+
 
     <RelativeLayout
         android:layout_width="match_parent"

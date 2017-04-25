@@ -3,8 +3,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'org.greenrobot.greendao'
 apply plugin: 'android-apt'
 
+repositories {
+    mavenCentral()
+}
+
 def versionMajor = 1
-def versionBuild = 01
+def versionBuild = 03
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
@@ -72,7 +76,7 @@ android {
 
 
 greendao {
-    schemaVersion 1
+    schemaVersion 5
     daoPackage 'com.lpf.oneminute.greendao.gen'
     targetGenDir 'src/main/java'
 }
@@ -90,10 +94,10 @@ dependencies {
     compile 'com.android.support:design:25.2.0'
     compile 'org.greenrobot:greendao:3.2.0'
     compile 'net.zetetic:android-database-sqlcipher:3.5.4'
-    compile 'cn.bmob.android:bmob-sdk:3.5.2'
-    compile 'cn.bmob.android:bmob-push:0.8'
-    compile 'cn.bmob.android:bmob-im:2.0.5@aar'
-    compile 'cn.bmob.android:bmob-sms:1.0.1'
+//    compile 'cn.bmob.android:bmob-sdk:3.5.2'
+//    compile 'cn.bmob.android:bmob-push:0.8'
+//    compile 'cn.bmob.android:bmob-im:2.0.5@aar'
+//    compile 'cn.bmob.android:bmob-sms:1.0.1'
     compile 'cn.bmob.android:http-legacy:1.0'
     compile 'com.jakewharton:butterknife:8.4.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
@@ -103,7 +107,13 @@ dependencies {
 //    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
 //    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+
+    //admob
+    compile 'com.google.android.gms:play-services-vision:10.2.0'
+    compile 'com.google.android.gms:play-services-ads:10.2.0'
+
+    compile 'com.google.firebase:firebase-ads:10.2.0'
 }
-repositories {
-    mavenCentral()
-}
+
+// ADD THIS AT THE BOTTOM
+apply plugin: 'com.google.gms.google-services'
