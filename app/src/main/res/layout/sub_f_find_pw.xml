@@ -1,83 +1,92 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-    android:gravity="center"
-    android:orientation="vertical"
     tools:context="com.lpf.oneminute.modules.home.SubFragmentChangePw">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:layout_height="match_parent"
+        android:layout_margin="30dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:gravity="center"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:text="@string/safe_question_1" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/et_safe_question_1"
-            style="@style/et_change_pw" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:text="@string/safe_question_1" />
 
-        <TextView
-            android:id="@+id/tv_safe_question_1"
-            style="@style/tv_change_pw"
-            android:text="please input the first question" />
+            <EditText
+                android:id="@+id/et_safe_question_1"
+                style="@style/et_change_pw" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:text="@string/safe_question_2" />
+            <TextView
+                android:id="@+id/tv_safe_question_1"
+                style="@style/tv_change_pw"
+                android:text="please input the first question" />
 
-        <EditText
-            android:id="@+id/et_safe_question_2"
-            style="@style/et_change_pw" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:text="@string/safe_question_2" />
 
-        <TextView
-            android:id="@+id/tv_safe_question_2"
-            style="@style/tv_change_pw"
-            android:text="please input the second question" />
+            <EditText
+                android:id="@+id/et_safe_question_2"
+                style="@style/et_change_pw" />
+
+            <TextView
+                android:id="@+id/tv_safe_question_2"
+                style="@style/tv_change_pw"
+                android:text="please input the second question" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/et_username"
+                style="@style/sub_login_find_pw_user"
+                android:hint="input your username" />
+
+            <EditText
+                android:id="@+id/et_new_pw"
+                style="@style/sub_login_find_pw"
+                android:hint="input new password" />
+
+            <EditText
+                android:id="@+id/et_new_pw_confirm"
+                style="@style/sub_login_find_pw"
+                android:hint="input confirm password" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/btn_safe_ok"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginBottom="20dp"
+            android:src="@mipmap/btn_ok" />
 
     </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical">
-
-        <EditText
-            android:id="@+id/et_username"
-            style="@style/sub_login_find_pw_user"
-            android:hint="input your username" />
-
-        <EditText
-            android:id="@+id/et_new_pw"
-            style="@style/sub_login_find_pw"
-            android:hint="input new password" />
-
-        <EditText
-            android:id="@+id/et_new_pw_confirm"
-            style="@style/sub_login_find_pw"
-            android:hint="input confirm password" />
-
-    </LinearLayout>
-
-    <ImageView
-        android:id="@+id/btn_safe_ok"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:src="@mipmap/btn_ok" />
-
-</LinearLayout>
+</ScrollView>

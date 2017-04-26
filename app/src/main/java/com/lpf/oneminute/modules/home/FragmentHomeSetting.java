@@ -71,7 +71,7 @@ public class FragmentHomeSetting extends BaseFragment {
                 NavigatorUtil.switchToFragment(mContext, SubFragmentChangePw.newInstance());
                 break;
             case R.id.btn_safe_question:
-                NavigatorUtil.switchToFragment(mContext, SubFragmentFindPw.newInstance());
+                NavigatorUtil.switchToFragment(mContext, SubFragmentSafeQuestion.newInstance());
                 break;
         }
     }
